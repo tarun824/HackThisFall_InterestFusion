@@ -5,19 +5,20 @@ Thank you for considering contributing to Interest Fusion! Your contributions wi
 ## Getting Started
 
 1. **Fork the Repository**: Fork the project repository by clicking the "Fork" button on GitHub.
-2. **Clone Your Fork**: Clone the forked repository to your local machine.
+2. **Star the Repository**: Star the project repository by clicking the "Star" button on Github.
+3. **Clone Your Fork**: Clone the forked repository to your local machine.
    ```bash
    git clone https://github.com/<your-username>/HackThisFall_InterestFusion.git
    ```
-3. **Navigate to the Project Directory**: Change into the project directory.
+4. **Navigate to the Project Directory**: Change into the project directory.
    ```bash
    cd HackThisFall_InterestFusion
    ```
-4. **Set Upstream Remote**: Add the original repository as a remote to sync changes.
+5. **Set Upstream Remote**: Add the original repository as a remote to sync changes.
    ```bash
    git remote add upstream https://github.com/KGupta2601/HackThisFall_InterestFusion.git
    ```
-5. **Install Dependencies**: Install project dependencies.
+6. **Install Dependencies**: Install project dependencies.
    ```bash
    npm install
    ```
