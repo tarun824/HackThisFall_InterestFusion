@@ -1,6 +1,6 @@
 
 <div align="center">  
-  # Interest Fusion
+## 👨‍💻👩‍💻Interest Fusion
   
   [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
   [![Issues](https://img.shields.io/github/issues/KGupta2601/HackThisFall_InterestFusion)](https://github.com/KGupta2601/HackThisFall_InterestFusion/issues)
