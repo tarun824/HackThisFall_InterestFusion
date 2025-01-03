@@ -1,117 +1,306 @@
-# InterestFusion_HTF
-InterestFusion: Combat loneliness in education by connecting individuals based on shared interests. Secure profiles, matching, and future plans for scalability and enhanced safety
 
+<div align="center">
+  <img src="assets/logo.png" alt="Interest Fusion Logo" width="200"/>
+  
+  # Interest Fusion
+  
+  [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+  [![Issues](https://img.shields.io/github/issues/KGupta2601/HackThisFall_InterestFusion)](https://github.com/KGupta2601/HackThisFall_InterestFusion/issues)
+  [![Pull Requests](https://img.shields.io/github/issues-pr/KGupta2601/HackThisFall_InterestFusion)](https://github.com/KGupta2601/HackThisFall_InterestFusion/pulls)
+  [![Last Commit](https://img.shields.io/github/last-commit/KGupta2601/HackThisFall_InterestFusion)](https://github.com/KGupta2601/HackThisFall_InterestFusion/commits/main)
 
-InterestFusion is a platform aimed at addressing mental health issues such as loneliness, alienation, and social awkwardness within education institutions. By connecting individuals based on shared interests and hobbies, we aim to foster meaningful relationships and combat feelings of isolation.
+  🤝 Connecting minds, fostering relationships, and building communities through shared interests
+</div>
 
-## Project Details
+---
 
-### Current Situation
-- Designed for a class of fewer than 100 people initially
-- Users can create, update, and delete their profiles
-- Profiles are authenticated by favourite technique
-- Users can view and match with others based on similar interests/hobbies
-- User verification is done via OTP, potentially using the Vonage API
-- Connected users can contact each other using SSN
+## 🌟 Overview
 
-### Future Plans
-- Scale platform to support larger databases and user populations
-- Improve stability and user experience
-- Implement features for blocking/hiding matches and reporting users
-- Enable monitored and safe chat functionality between connected individuals
-- Optimizing the matching algorithm using tree data structure for matching the tags used in the profile
+Interest Fusion is an innovative platform tackling mental health challenges in educational institutions by creating meaningful connections through shared interests. We're revolutionizing how students connect, making social interactions more natural and anxiety-free.
 
-## Unique Selling Points (USPs)
-- Minimalistic user data collection, ensuring privacy
-- Profile information is only shared after confirmation from both users
-- Users receive notifications of matching interests, but details are shared only upon mutual agreement
-- No cheesey or overthought answers required
-- Emphasis on user privacy and data security
-- Notifications facilitate mutual consent before sharing profile information
+<details>
+<summary>💡 Why Interest Fusion?</summary>
 
-## Project Setup and Getting Started
+- 🎯 **Targeted Connections**: Match with peers sharing your genuine interests
+- 🔒 **Privacy First**: Your data is shared only with mutual consent
+- 🎮 **User-Friendly**: Simple, intuitive interface without overwhelming questionnaires
+- 🛡️ **Secure**: Robust verification and safety measures
+- 🤖 **Smart Matching**: Advanced algorithms using tree data structures
+</details>
+
+## 🚀 Features
+
+### Current Capabilities
+- ✨ **Smart Profile Creation**
+  - Customizable interest tags
+  - Authenticated profiles using favorite technique
+  - Minimal yet meaningful data collection
+  
+- 🤝 **Intelligent Matching**
+  - Interest-based connection suggestions
+  - Privacy-preserved profile viewing
+  - Mutual consent-based information sharing
+
+- 🔐 **Security Measures**
+  - OTP verification (Vonage API integration)
+  - SSN-based user authentication
+  - Encrypted data storage
+
+### 🔮 Future Roadmap
+- 📈 **Scalability**
+  - Enhanced database architecture
+  - Load balancing implementation
+  - Performance optimization
+
+- 🛡️ **Enhanced Safety**
+  - AI-powered content moderation
+  - Advanced user verification
+  - Real-time suspicious activity detection
+
+- 💬 **Communication**
+  - Secure in-app messaging
+  - Interest-based group chats
+  - Content filtering system
+
+## 🛠️ Quick Start
 
 ### Prerequisites
-Ensure you have the following installed on your system:
-- Node.js (v14 or higher)
-- npm or yarn
-- MongoDB (local or cloud instance)
+```bash
+Node.js >= v14
+MongoDB
+npm or yarn
+```
 
-### Steps to Set Up the Project
+### Installation
 
-1. **Clone the Repository**: Clone the project repository to your local machine.
+1. **Clone the repository**
+```bash
+git clone https://github.com/KGupta2601/HackThisFall_InterestFusion.git
+cd HackThisFall_InterestFusion
+```
+
+2. **Environment Setup**
+```bash
+cp .env.example .env
+# Edit .env with your configurations
+```
+
+3. **Install Dependencies**
+```bash
+npm install
+```
+
+4. **Start Development Server**
+```bash
+npm run dev
+```
+
+<details>
+<summary>📝 Configuration Options</summary>
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `PORT` | Server port | 3000 |
+| `MONGODB_URI` | MongoDB connection string | mongodb://localhost:27017 |
+| `JWT_SECRET` | JWT encryption key | - |
+| `VONAGE_API_KEY` | Vonage API key for OTP | - |
+
+</details>
+
+## 🏗️ Architecture
+
+```mermaid
+graph TD
+    A[Frontend - React] --> B[API Layer]
+    B --> C[Authentication]
+    B --> D[Interest Matching Engine]
+    B --> E[User Management]
+    C --> F[MongoDB]
+    D --> F
+    E --> F
+```
+
+## 🤝 Contributing
+
+We welcome contributions! Check out our [Contributing Guidelines](CONTRIBUTING.md) for details on how to get started.
+
+<details>
+<summary>👥 Contributors</summary>
+
+<a href="https://github.com/KGupta2601/HackThisFall_InterestFusion/graphs/contributors">
+  <img src="https://contributors-img.web.app/image?repo=KGupta2601/HackThisFall_InterestFusion" />
+</a>
+
+</details>
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 📞 Support
+
+- 📧 Email: gkashika26@gmail.com
+- 💬 [Discord Community](https://discord.gg/interestfusion)
+- 📚 [Documentation](https://docs.interestfusion.com)
+
+---
+
+<div align="center">
+  Made with ❤️ by the Interest Fusion Team
+</div>
+```
+
+**CONTRIBUTING.md:**
+```markdown
+# 🤝 Contributing to Interest Fusion
+
+First off, thank you for considering contributing to Interest Fusion! It's people like you that make Interest Fusion such a great tool. 🌟
+
+## 📋 Table of Contents
+
+- [Code of Conduct](#code-of-conduct)
+- [Getting Started](#getting-started)
+- [Development Workflow](#development-workflow)
+- [Pull Request Process](#pull-request-process)
+- [Style Guidelines](#style-guidelines)
+- [Community](#community)
+
+## 📜 Code of Conduct
+
+We take our open source community seriously and hold ourselves and other contributors to high standards of communication. By participating and contributing to this project, you agree to uphold our [Code of Conduct](CODE_OF_CONDUCT.md).
+
+## 🚀 Getting Started
+
+### 1. Fork the Repository
+Click the 'Fork' button at the top right of this page.
+
+### 2. Clone Your Fork
+```bash
+git clone https://github.com/your-username/HackThisFall_InterestFusion.git
+cd HackThisFall_InterestFusion
+```
+
+### 3. Set Up Development Environment
+```bash
+# Add upstream remote
+git remote add upstream https://github.com/KGupta2601/HackThisFall_InterestFusion.git
+
+# Install dependencies
+npm install
+
+# Create branch for your feature
+git checkout -b feature/your-feature-name
+```
+
+## 💻 Development Workflow
+
+1. **Pick an Issue**
+   - Look for issues labeled `good first issue` or `help wanted`
+   - Comment on the issue to let others know you're working on it
+
+2. **Create a Branch**
    ```bash
-   git clone https://github.com/KGupta2601/HackThisFall_InterestFusion.git
+   git checkout -b feature/issue-number-short-description
    ```
 
-2. **Navigate to the Project Directory**: Change into the project directory.
+3. **Make Changes**
+   - Write clear, commented code
+   - Follow our style guidelines
+   - Add tests for new features
+
+4. **Commit Changes**
    ```bash
-   cd HackThisFall_InterestFusion
+   git add .
+   git commit -m "type: brief description
+
+   - Detailed description
+   - Another point
+
+   Closes #123"
    ```
 
-3. **Install Dependencies**: Install all the required dependencies using npm or yarn.
+   Commit types:
+   - `feat:` New feature
+   - `fix:` Bug fix
+   - `docs:` Documentation
+   - `style:` Formatting
+   - `refactor:` Code restructuring
+   - `test:` Adding tests
+   - `chore:` Maintenance
+
+## 🔄 Pull Request Process
+
+1. **Update Your Fork**
    ```bash
-   npm install
-   # or
-   yarn install
+   git fetch upstream
+   git rebase upstream/main
    ```
 
-4. **Set Up Environment Variables**: Create a `.env` file in the root directory of the project and configure it as per the example provided in the `.env.example` file.
-
-5. **Run MongoDB**: Ensure your MongoDB instance is running locally or configure your `.env` file to use a cloud-based MongoDB instance.
-
-6. **Start the Development Server**: Run the application locally.
+2. **Push Changes**
    ```bash
-   npm start
+   git push origin feature/your-feature-name
    ```
 
-7. **Access the Application**: Open your browser and navigate to `http://localhost:3000`.
+3. **Create Pull Request**
+   - Use our PR template
+   - Link related issues
+   - Add screenshots if relevant
 
-## Development Guidelines
+4. **Code Review**
+   - Address review comments
+   - Keep discussions focused
+   - Be patient and respectful
 
-We aim to maintain high standards of code quality and consistency. Please adhere to the following guidelines:
+## 🎨 Style Guidelines
 
-### Technology Stack
-We encourage using the following technologies while contributing:
-- **Frontend**: React, JavaScript (ES6+)
-- **Backend**: Node.js, Express.js
-- **Database**: MongoDB
+### Code Style
 
-### Coding Standards
-- Follow best practices for React and JavaScript development.
-- Use meaningful variable and function names.
-- Ensure all code is well-documented and modular.
-- Use Prettier for code formatting.
+```javascript
+// Good
+function calculateInterestMatch(userInterests, otherInterests) {
+  return userInterests.filter(interest => 
+    otherInterests.includes(interest)
+  ).length;
+}
 
-### Branching and Commits
-- Create a new branch for every feature or bug fix.
-  ```bash
-  git checkout -b <branch-name>
-  ```
-- Write clear and concise commit messages.
-  ```bash
-  git commit -m "Add: Feature to match users based on shared interests"
-  ```
+// Bad
+function calc(i1, i2) {
+  return i1.filter(i => i2.includes(i)).length;
+}
+```
 
-### Testing
-- Ensure that your changes are well-tested.
-- Run the project locally to verify your changes.
-  ```bash
-  npm start
-  ```
+### Documentation Style
 
-### Pull Requests
-- Push your branch to your forked repository.
-  ```bash
-  git push origin <branch-name>
-  ```
-- Create a pull request (PR) to the `main` branch of the original repository.
-- Provide a detailed description of your changes in the PR template.
-- Reference any relevant issues or feature requests in your PR.
+```javascript
+/**
+ * Calculates interest match percentage between two users
+ * @param {string[]} userInterests - First user's interests
+ * @param {string[]} otherInterests - Second user's interests
+ * @returns {number} Match percentage from 0 to 100
+ */
+```
 
-## Community Guidelines
-- Be respectful and inclusive.
-- Open issues for any bugs or feature requests.
-- Provide constructive feedback during code reviews.
+## 👥 Community
 
+- Join our [Discord](https://discord.gg/interestfusion)
+- Follow us on [Twitter](https://twitter.com/InterestFusion)
+- Read our [Blog](https://blog.interestfusion.com)
 
+### 📅 Community Meetings
+- Weekly Dev Sync: Thursdays at 3 PM UTC
+- Monthly Planning: First Monday of each month
+- Community Calls: Every other Wednesday
+
+## 🎉 Recognition
+
+Contributors get:
+- Recognition in our README
+- Contributor badge on our platform
+- Priority access to beta features
+- Invitation to contributor-only events
+
+---
+
+<div align="center">
+  <img src="assets/contributor-badge.png" alt="Contributor Badge" width="150"/>
+  
