@@ -282,14 +282,10 @@ function calc(i1, i2) {
 
 ## 👥 Community
 
-- Join our [Discord](https://discord.gg/interestfusion)
+- Join our [Discord]https://discord.com/channels/1324222094845673503/1324222095340736563
 - Follow us on [Twitter](https://twitter.com/InterestFusion)
 - Read our [Blog](https://blog.interestfusion.com)
 
-### 📅 Community Meetings
-- Weekly Dev Sync: Thursdays at 3 PM UTC
-- Monthly Planning: First Monday of each month
-- Community Calls: Every other Wednesday
 
 ## 🎉 Recognition
 
@@ -300,7 +296,4 @@ Contributors get:
 - Invitation to contributor-only events
 
 ---
-
-<div align="center">
-  <img src="assets/contributor-badge.png" alt="Contributor Badge" width="150"/>
   
