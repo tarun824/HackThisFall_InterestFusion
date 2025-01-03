@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: "Contributing Guidelines"
+    url: "https://github.com/KGupta2601/HackThisFall_InterestFusion/blob/main/CONTRIBUTING.md"
+    about: "Review our contributing guidelines before opening an issue."
