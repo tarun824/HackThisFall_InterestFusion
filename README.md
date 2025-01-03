@@ -1,7 +1,5 @@
 
-<div align="center">
-  <img src="assets/logo.png" alt="Interest Fusion Logo" width="200"/>
-  
+<div align="center">  
   # Interest Fusion
   
   [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
