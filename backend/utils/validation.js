@@ -6,11 +6,10 @@ const validateSignUpData = (req) => {
     throw new Error("Name is not valid!");
   } else if (!validator.isEmail(emailId)) {
     throw new Error("Email is not valid!");
-  } else if (!validator.isStrongPassword(password, { minLength: 6, minSymbols: 0 })) {
-    throw new Error("Password must be at least 6 characters long and include at least 1 number.");
+  } else if (!validator.isStrongPassword(password)) {
+    throw new Error("Please enter a strong Password!");
   }
 };
-
 
 const validateEditProfileData = (req) => {
   const allowedEditFields = [
