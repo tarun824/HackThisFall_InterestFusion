@@ -4,9 +4,17 @@ const app = express();
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
+const allowedOrigins = [
+  "https://intrest-fusion-frontend.vercel.app",
+  "https://another-frontend.vercel.app",
+  "http://localhost:5173",
+  "http://localhost:3000"
+];
+
+
 app.use(
   cors({
-    origin: "https://intrest-fusion-frontend.vercel.app",
+    origin: allowedOrigins,
     credentials: true
   
   })
