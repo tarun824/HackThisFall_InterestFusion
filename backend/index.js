@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const connectDB = require("./config/database");
+const { redisClient } = require("./config/redis"); // Import Redis client
 
 const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
@@ -35,16 +36,22 @@ app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
 
-// Database connection and server initialization
+// Database and Redis connection, then server initialization
 const startServer = async () => {
   try {
     await connectDB();
     console.log("✅ Database connection established...");
+
+    // Initialize Redis connection
+    redisClient.connect(); // Explicitly connect if using Redis 4.x+
+    console.log("✅ Redis connection established...");
+
+    // Start server
     app.listen(PORT, () => {
       console.log(`🚀 Server is running on port ${PORT}...`);
     });
   } catch (err) {
-    console.error("❌ Failed to connect to the database:", err.message);
+    console.error("❌ Failed to start the server:", err.message);
   }
 };
 
