@@ -1,13 +1,13 @@
 ---
-name: "Other Issues"
+name: "Other Issues 📝"
 about: "For issues that don't fit into the other categories."
 title: "[OTHER] - <Short Description>"
-labels: swoc
+labels: SWOC, SWOC2025, VERIFIED
 assignees: ["@<username>"]
 ---
 
-**Describe your issue or suggestion**
+## 📝 **Describe Your Issue or Suggestion**
 Provide a clear and concise description of the issue or idea.
 
-**Additional context**
+## ➕ **Additional Context**
 Add any other context, screenshots, or details related to your issue here.
