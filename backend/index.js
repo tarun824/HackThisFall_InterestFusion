@@ -43,8 +43,9 @@ const startServer = async () => {
     console.log("✅ Database connection established...");
 
     // Initialize Redis connection
-    redisClient.connect(); // Explicitly connect if using Redis 4.x+
-    console.log("✅ Redis connection established...");
+    //Uncomment this when you need redis caching
+    // redisClient.connect(); // Explicitly connect if using Redis 4.x+
+    // console.log("✅ Redis connection established...");
 
     // Start server
     app.listen(PORT, () => {
