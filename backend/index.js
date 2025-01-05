@@ -10,7 +10,7 @@ const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
 
 const app = express();
-const PORT = 7777;
+const PORT = process.env.PORT || 7777;
 
 // Allowed origins for CORS
 const allowedOrigins = [
