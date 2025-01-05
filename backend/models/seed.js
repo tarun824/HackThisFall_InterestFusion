@@ -37,10 +37,8 @@ const generateConnectionRequests = (users) => {
 };
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/InternetFusion', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const connectURL = process.env.MONGO_URI || "mongodb://localhost:27017/InternetFusion"
+mongoose.connect(connectURL);
 
 mongoose.connection.once('open', async () => {
   console.log('Connected to the database');
