@@ -8,6 +8,8 @@ const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
+const analyticsLogger = require("./utils/analyticsLogger");
+const activity = require('./routes/activity')
 
 const app = express();
 const PORT = process.env.PORT || 7777;
@@ -29,12 +31,17 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
-
+app.use(analyticsLogger)
 // Routes
 app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
+app.use('/api/', activity)
+
+app.get('/', (req, res) => {
+  res.send('Server is running');
+});
 
 // Database and Redis connection, then server initialization
 const startServer = async () => {
