@@ -33,7 +33,7 @@ const LandingPage = () => {
             </section>
 
             {/* Features Section */}
-            <div className="flex flex-wrap justify-center items-start gap-8 mt-12 max-w-7xl">
+            <div className="flex flex-wrap justify-center items-start gap-8 mt-12 max-w-7xl mb-12">
                 <FeatureCard
                     title="Personalized Matching"
                     description="Connect with others who share your passions and create meaningful bonds through shared interests."
@@ -51,7 +51,7 @@ const LandingPage = () => {
                 />
             </div>
 
-            {/* <Footer /> */}
+            <Footer />
         </div>
     );
 };
