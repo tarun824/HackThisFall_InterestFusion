@@ -28,7 +28,6 @@ router.get("/health", (req, res) => {
     mongoDbConnectionStatus = mongoose.connection.readyState;
     // checking Redis connection
     redisConnectionStatus = redisClient.isReady;
-    console.log(redisConnectionStatus);
   } catch (e) {
     res.send({
       message: "There is an issue with connections.",
