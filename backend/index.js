@@ -11,26 +11,9 @@ const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
 const analyticsLogger = require("./utils/analyticsLogger");
 const activity = require("./routes/activity");
-const metricsRouter = require("./routes/metrics");
-const client = require("prom-client");
-const responseTime = require("response-time");
 
 const app = express();
 const PORT = process.env.PORT || 7777;
-
-const collectMetrics = client.collectDefaultMetrics;
-collectMetrics({ register: client.register });
-const trackTime = new client.Histogram({
-  name: "track_all_req_res_time",
-  help: "Tracking all the Request and Responce Time",
-  labelNames: ["method", "route", "status_code"],
-  buckets: [1, 50, 100, 200, 400, 500, 800, 1000, 2000],
-});
-// To Track total number of Request
-const trackTotalRequest = new client.Counter({
-  name: "track_total_request",
-  help: "This will track total request",
-});
 
 // Allowed origins for CORS
 const allowedOrigins = [
@@ -47,20 +30,6 @@ app.use(
     credentials: true,
   })
 );
-
-app.use(
-  responseTime((req, res, time) => {
-    trackTotalRequest.inc();
-    trackTime
-      .labels({
-        method: req.method,
-        route: req.url,
-        status_code: res.statusCode,
-      })
-      .observe(time);
-  })
-);
-
 const apiLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
   max: 5000,
@@ -78,7 +47,6 @@ app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
 app.use("/api/", activity);
-app.use("/", metricsRouter);
 
 app.get("/", (req, res) => {
   res.send("Server is running");
