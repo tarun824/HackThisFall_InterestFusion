@@ -15,6 +15,7 @@ requestRouter.post(
       const status = req.params.status;
 
       const allowedStatus = ["ignored", "interested"];
+      // Validation
       if (!allowedStatus.includes(status)) {
         return res
           .status(400)
@@ -64,7 +65,7 @@ requestRouter.post(
     try {
       const loggedInUser = req.user;
       const { status, requestId } = req.params;
-
+      // validation
       const allowedStatus = ["accepted", "rejected"];
       if (!allowedStatus.includes(status)) {
         return res.status(400).json({ messaage: "Status not allowed!" });
