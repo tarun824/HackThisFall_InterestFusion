@@ -3,7 +3,9 @@ const authRouter = express.Router();
 const { validateSignUpData } = require("../utils/validation");
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
-const sendEmail = require("../config/notification");
+const sendEmail = require("../config/sendEmail");
+const Token = require("../models/token");
+const validator = require("validator");
 
 // Email template configurations
 const emailTemplates = {
@@ -66,7 +68,7 @@ const emailTemplates = {
         </table>
       </body>
       </html>
-    `
+    `,
   }),
 
   login: (firstName, loginInfo) => ({
@@ -101,8 +103,8 @@ const emailTemplates = {
                     <h3 style="color: #1f2937; margin-top: 0;">Login Details:</h3>
                     <p style="color: #4b5563; margin: 0;">
                       Time: ${new Date().toLocaleString()}<br>
-                      Browser: ${loginInfo?.browser || 'Unknown'}<br>
-                      Location: ${loginInfo?.location || 'Unknown'}
+                      Browser: ${loginInfo?.browser || "Unknown"}<br>
+                      Location: ${loginInfo?.location || "Unknown"}
                     </p>
                   </div>
                   
@@ -128,8 +130,8 @@ const emailTemplates = {
         </table>
       </body>
       </html>
-    `
-  })
+    `,
+  }),
 };
 
 // Updated route handlers
@@ -137,7 +139,7 @@ authRouter.post("/signup", async (req, res) => {
   try {
     validateSignUpData(req);
     const { firstName, lastName, emailId, password } = req.body;
-    
+
     const passwordHash = await bcrypt.hash(password, 10);
     const user = new User({
       firstName,
@@ -145,10 +147,10 @@ authRouter.post("/signup", async (req, res) => {
       emailId,
       password: passwordHash,
     });
-    
+
     const savedUser = await user.save();
     const token = await savedUser.getJWT();
-    
+
     res.cookie("token", token, {
       expires: new Date(Date.now() + 8 * 3600000),
       sameSite: "None",
@@ -174,7 +176,7 @@ authRouter.post("/login", async (req, res) => {
   try {
     const { emailId, password } = req.body;
     const user = await User.findOne({ emailId: emailId });
-    
+
     if (!user) {
       throw new Error("Invalid credentials");
     }
@@ -182,7 +184,7 @@ authRouter.post("/login", async (req, res) => {
     const isPasswordValid = await user.validatePassword(password);
     if (isPasswordValid) {
       const token = await user.getJWT();
-      
+
       res.cookie("token", token, {
         expires: new Date(Date.now() + 8 * 3600000),
         sameSite: "None",
@@ -191,8 +193,8 @@ authRouter.post("/login", async (req, res) => {
 
       // Get basic login info (you can expand this based on your needs)
       const loginInfo = {
-        browser: req.headers['user-agent'],
-        location: req.ip
+        browser: req.headers["user-agent"],
+        location: req.ip,
       };
 
       // Send enhanced login notification
@@ -220,6 +222,136 @@ authRouter.post("/logout", async (req, res) => {
     secure: true,
   });
   res.send("Successfully logged out from Interest Fusion!");
+});
+
+// Email Reset
+authRouter.get("/forgot_password", async (req, res) => {
+  // we will send OTP to user
+  const userEmailID = req.body.emailId;
+  const isUserAlreadyPresent = await Token.findOne({ emailId: userEmailID });
+  if (isUserAlreadyPresent) {
+    // means user has already got OTP so next time they need to use re-send
+    res.send({ status: 0, message: "Unable to send Email" });
+    return;
+  }
+
+  // generate token
+  const token = Math.floor(100000 + Math.random() * 900000).toString();
+
+  const subject = "Password reset request for Interest Fusion";
+  const text = "Your OTP is " + token;
+
+  const newToken = new Token({
+    emailId: userEmailID,
+    token: token,
+  });
+  await newToken.save();
+  const isEmailSent = await sendEmail(userEmailID, subject, text);
+  if (isEmailSent) {
+    res.send({ status: 1, message: "OTP successfully sent to EmailId" });
+  } else {
+    res.send({ status: 0, message: "Something went wrong" });
+  }
+});
+
+authRouter.get("/re_send_OTP", async (req, res) => {
+  // we will re-send OTP to user
+  const userEmailID = req.body.emailId;
+  const isUserAlreadyPresent = await Token.findOne({ emailId: userEmailID });
+  if (!isUserAlreadyPresent) {
+    // means user has not got any OTP yet ,this API should be used to for "Re-send OTP" button
+    res.send({ status: 0, message: "something went wrong " });
+    return;
+  }
+
+  // generate token
+  const token = Math.floor(100000 + Math.random() * 900000).toString();
+
+  const subject = "Password reset request for Interest Fusion";
+  const text = "Your OTP is " + token;
+  // Updating the token
+
+  await isUserAlreadyPresent.updateOne({
+    $set: {
+      token: token,
+      createdAt: Date.now(),
+    },
+  });
+  const isEmailSent = await sendEmail(userEmailID, subject, text);
+  if (isEmailSent) {
+    res.send({ status: 1, message: "OTP successfully sent to EmailId" });
+  } else {
+    res.send({ status: 0, message: "Something went wrong" });
+  }
+});
+
+authRouter.get("/verify_OTP", async (req, res) => {
+  const { emailId, otp } = req.body;
+
+  const isUserPresent = await Token.findOne({ emailId });
+  if (!isUserPresent) {
+    res.send({ status: 0, message: "User has not got any OTP" });
+  }
+  const oneHourFromCreatedAt = isUserPresent.createdAt * 60 * 60 * 1000;
+
+  if (!(Date.now() < oneHourFromCreatedAt)) {
+    res.send({ status: 0, message: "OTP has expired" });
+    return;
+  }
+  if (isUserPresent.token === otp) {
+    await isUserPresent.updateOne({ $set: { isVerified: true } });
+    res.send({ status: 1, message: "OTP verified" });
+  } else {
+    res.send({ status: 0, message: "Invalid OTP" });
+  }
+});
+
+authRouter.put("/update_password", async (req, res) => {
+  const { emailId, password } = req.body;
+
+  const isUserPresent = await Token.findOne({ emailId });
+  if (!isUserPresent) {
+    res.send({ status: 0, message: "Please verify OTP to change password" });
+    return;
+  }
+
+  if (!isUserPresent.isVerified) {
+    res.send({ status: 0, message: "Please verify OTP to change password" });
+    return;
+  }
+  // User must change password within 1 hour from verifying the OTP or else again they can use re_send_OTP and verify then change the password
+  const oneHourFromCreatedAt = isUserPresent.createdAt * 60 * 60 * 1000;
+
+  if (!(Date.now() < oneHourFromCreatedAt)) {
+    res.send({ status: 0, message: "Please verify OTP again" });
+    return;
+  }
+  if (!validator.isStrongPassword(password)) {
+    res.send({ status: 0, message: "Please enter a strong Password!" });
+    return;
+  }
+  const passwordHash = await bcrypt.hash(password, 10);
+  const user = await User.findOne({ emailId });
+  if (!user) {
+    res.send({ status: 0, message: "User not found" });
+    return;
+  }
+  await user.updateOne({
+    $set: {
+      password: passwordHash,
+    },
+  });
+  console.log(user);
+  const token = await user.getJWT();
+
+  res.cookie("token", token, {
+    expires: new Date(Date.now() + 8 * 3600000),
+    sameSite: "None",
+    secure: true,
+  });
+  // delete that token data
+  await Token.deleteOne({ emailId });
+  res.send({ status: 1, message: "Password Updated successfully" });
 });
 
 module.exports = authRouter;
