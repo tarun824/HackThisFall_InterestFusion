@@ -6,7 +6,9 @@ const bcrypt = require("bcryptjs");
 const sendEmail = require("../config/sendEmail");
 const Token = require("../models/token");
 const validator = require("validator");
+const { z } = require("zod");
 
+const emailSchema = z.string().email("Invalid email format");
 // Email template configurations
 const emailTemplates = {
   welcome: (firstName) => ({
@@ -173,8 +175,22 @@ authRouter.post("/signup", async (req, res) => {
 });
 
 authRouter.post("/login", async (req, res) => {
+  const loginSchema = z.object({
+    emailId: z.string().email("Invalid email formate"),
+    password: z.string(),
+  });
+
   try {
     const { emailId, password } = req.body;
+    const loginSchemaValidator = loginSchema.safeParse({
+      emailId: emailId,
+      password: password,
+    });
+    if (!loginSchemaValidator.success) {
+      return res
+        .status(400)
+        .send({ message: "Validation Failed :" + loginSchemaValidator.error });
+    }
     const user = await User.findOne({ emailId: emailId });
 
     if (!user) {
@@ -228,6 +244,12 @@ authRouter.post("/logout", async (req, res) => {
 authRouter.get("/forgot_password", async (req, res) => {
   // we will send OTP to user
   const userEmailID = req.body.emailId;
+  const checkEmailSchema = emailSchema.safeParse(userEmailID);
+  if (!checkEmailSchema) {
+    return res
+      .status(400)
+      .send({ message: "Validation Failed :" + checkEmailSchema.error });
+  }
   const isUserAlreadyPresent = await Token.findOne({ emailId: userEmailID });
   if (isUserAlreadyPresent) {
     // means user has already got OTP so next time they need to use re-send
@@ -257,6 +279,13 @@ authRouter.get("/forgot_password", async (req, res) => {
 authRouter.get("/re_send_OTP", async (req, res) => {
   // we will re-send OTP to user
   const userEmailID = req.body.emailId;
+
+  const checkEmailSchema = emailSchema.safeParse(userEmailID);
+  if (!checkEmailSchema) {
+    return res
+      .status(400)
+      .send({ message: "Validation Failed :" + checkEmailSchema.error });
+  }
   const isUserAlreadyPresent = await Token.findOne({ emailId: userEmailID });
   if (!isUserAlreadyPresent) {
     // means user has not got any OTP yet ,this API should be used to for "Re-send OTP" button
@@ -287,6 +316,19 @@ authRouter.get("/re_send_OTP", async (req, res) => {
 
 authRouter.get("/verify_OTP", async (req, res) => {
   const { emailId, otp } = req.body;
+  const verifyOTPSchema = z.object({
+    emailId: emailSchema,
+    otp: z.string().min(6, "OTP must be 6 digit"),
+  });
+  const verifyOTPSchemaValdate = verifyOTPSchema.safeParse({
+    emailId: emailId,
+    otp: otp,
+  });
+  if (!verifyOTPSchemaValdate) {
+    return res
+      .status(400)
+      .send({ message: "Validation Failed :" + verifyOTPSchemaValdate.error });
+  }
 
   const isUserPresent = await Token.findOne({ emailId });
   if (!isUserPresent) {
@@ -308,7 +350,19 @@ authRouter.get("/verify_OTP", async (req, res) => {
 
 authRouter.put("/update_password", async (req, res) => {
   const { emailId, password } = req.body;
-
+  const updatePasswordSchema = z.object({
+    emailId: emailSchema,
+    password: z.string(),
+  });
+  const updatePasswordSchemaValidate = updatePasswordSchema.safeParse({
+    emailId: emailId,
+    password: password,
+  });
+  if (!updatePasswordSchemaValidate.success) {
+    return res
+      .status(400)
+      .send({ message: "Validation Failed :" + verifyOTPSchemaValdate.error });
+  }
   const isUserPresent = await Token.findOne({ emailId });
   if (!isUserPresent) {
     res.send({ status: 0, message: "Please verify OTP to change password" });
@@ -341,7 +395,6 @@ authRouter.put("/update_password", async (req, res) => {
       password: passwordHash,
     },
   });
-  console.log(user);
   const token = await user.getJWT();
 
   res.cookie("token", token, {
