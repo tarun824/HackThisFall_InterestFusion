@@ -146,10 +146,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 <div align="center">
   Made with ❤️ by the Interest Fusion Team
 </div>
-```
 
 **CONTRIBUTING.md:**
-```markdown
+
 # 🤝 Contributing to Interest Fusion
 
 First off, thank you for considering contributing to Interest Fusion! It's people like you that make Interest Fusion such a great tool. 🌟
