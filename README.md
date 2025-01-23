@@ -1,5 +1,6 @@
 
 <div align="center">  
+  
 ## 👨‍💻👩‍💻Interest Fusion
   
   [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
@@ -279,8 +280,8 @@ function calc(i1, i2) {
 
 ## 👥 Community
 
-- Join our [Discord]https://discord.com/channels/1324222094845673503/1324222095340736563
-- Follow us on [Twitter](https://twitter.com/InterestFusion)
+- Join our [Discord](https://discord.gg/38xn7CPK)
+- Follow us on [Twitter](https://x.com/InterestFusion)
 - Read our [Blog](https://blog.interestfusion.com)
 
 
