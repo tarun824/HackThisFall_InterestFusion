@@ -140,7 +140,7 @@ const emailTemplates = {
 authRouter.post("/signup", async (req, res) => {
   try {
     validateSignUpData(req);
-    const { firstName, lastName, emailId, password } = req.body;
+    const { firstName, lastName, emailId, password, playerId } = req.body;
 
     const passwordHash = await bcrypt.hash(password, 10);
     const user = new User({
@@ -148,6 +148,7 @@ authRouter.post("/signup", async (req, res) => {
       lastName,
       emailId,
       password: passwordHash,
+      onesignalPlayerId: playerId,
     });
 
     const savedUser = await user.save();
@@ -181,7 +182,17 @@ authRouter.post("/login", async (req, res) => {
   });
 
   try {
-    const { emailId, password } = req.body;
+    const { emailId, password, playerId } = req.body;
+    const loginSchemaValidator = loginSchema.safeParse({
+      emailId: emailId,
+      password: password,
+      onesignalPlayerId: playerId,
+    });
+    if (!loginSchemaValidator.success) {
+      return res
+        .status(400)
+        .send({ message: "Validation Failed :" + loginSchemaValidator.error });
+    }
     const user = await User.findOne({ emailId: emailId });
 
     if (!user) {

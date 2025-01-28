@@ -1,9 +1,4 @@
 const OneSignal = require("onesignal-node");
-// const oneSignalClient = require("./../index");
-
-// const client = new OneSignal.Client(process.env.APP_ID, process.env.KEY_ID);
-
-// Function to send notification
 async function sendPushNotification(userId, message, deepLinkUrl) {
   try {
     const oneSignalClient = new OneSignal.Client(
@@ -15,9 +10,7 @@ async function sendPushNotification(userId, message, deepLinkUrl) {
       contents: {
         en: message,
       },
-      // included_segments: [userId],
       include_player_ids: [userId],
-      // url: deepLinkUrl,
     };
     if (deepLinkUrl) {
       notification["url"] = deepLinkUrl;
