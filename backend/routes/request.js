@@ -4,6 +4,7 @@ const requestRouter = express.Router();
 const { userAuth } = require("../middlewares/auth");
 const ConnectionRequest = require("../models/connectionRequest");
 const User = require("../models/user");
+const sendPushNotification = require("../config/send_push_notification");
 
 requestRouter.post(
   "/request/send/:status/:toUserId",
@@ -46,6 +47,14 @@ requestRouter.post(
       });
 
       const data = await connectionRequest.save();
+      // send notification if interested
+      if (status == "interested") {
+        await sendPushNotification(
+          toUser.onesignalPlayerId,
+          req.user.firstName + " is " + status + " in you!",
+          process.env.URL_FOR_DEEP_LINK + "/requests"
+        );
+      }
 
       res.json({
         message:
@@ -81,7 +90,22 @@ requestRouter.post(
           .status(404)
           .json({ message: "Connection request not found" });
       }
+      // Send notification for user
+      if (status === "accepted") {
+        const fromUser = await User.findOne({
+          _id: connectionRequest.fromUserId,
+        });
 
+        if (!fromUser) {
+          return res.send({ status: 0, message: "Sonthing went wrong" });
+        }
+
+        await sendPushNotification(
+          fromUser.onesignalPlayerId,
+          loggedInUser.firstName + " has " + status + " your request",
+          process.env.URL_FOR_DEEP_LINK + "/connections"
+        );
+      }
       connectionRequest.status = status;
 
       const data = await connectionRequest.save();
