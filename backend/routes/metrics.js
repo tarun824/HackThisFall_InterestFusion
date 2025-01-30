@@ -1,12 +1,9 @@
+// routes/metricsRoutes.js
 const express = require("express");
+const { getMetrics } = require("../controllers/metricsController");
 
-const metricsRouter = express.Router();
-const client = require("prom-client");
+const router = express.Router();
 
-metricsRouter.get("/metrics", async (req, res) => {
-  res.setHeader("Content-Type", client.register.contentType);
-  const metrics = await client.register.metrics();
-  res.send(metrics);
-});
+router.get("/metrics", getMetrics);
 
-module.exports = metricsRouter;
+module.exports = router;
