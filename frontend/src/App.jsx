@@ -15,18 +15,18 @@ import OneSignal from "react-onesignal";
 import Chat from "./components/Chat/Chat";
 
 function App() {
-  // try {
-  //   OneSignal.init({
-  //     appId: ONESIGNAL_APP_ID,
-  //     notifyButton: {
-  //       enable: true,
-  //     },
-  //   }).then(() => {
-  //     OneSignal.Notifications.requestPermission();
-  //   });
-  // } catch (e) {
-  //   console.log(e);
-  // }
+  try {
+    OneSignal.init({
+      appId: ONESIGNAL_APP_ID,
+      notifyButton: {
+        enable: true,
+      },
+    }).then(() => {
+      OneSignal.Notifications.requestPermission();
+    });
+  } catch (e) {
+    console.log(e);
+  }
   return (
     <>
       <Provider store={appStore}>
