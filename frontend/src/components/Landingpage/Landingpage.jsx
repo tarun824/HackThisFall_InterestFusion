@@ -15,25 +15,25 @@ const LandingPage = () => {
         <div className={`flex flex-col items-center min-h-screen transition-all ${darkMode ? 'bg-gray-800' : 'bg-gradient-to-t from-blue-100 to-white'}`}>
             {/* Header Section */}
             <header className={`py-16 px-8 text-center w-full ${darkMode ? 'bg-gradient-to-r from-blue-800 via-purple-500 to-blue-800' : 'bg-gradient-to-r from-blue-500 via-purple-600 to-blue-500'} text-white shadow-lg`}>
-    <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-widest text-blue-100 drop-shadow-lg max-w-full mx-auto">
-        InterestFusion
-    </h1>
-    <p className="mt-4 sm:mt-6 text-lg sm:text-xl italic font-light text-white/80 max-w-3xl mx-auto leading-relaxed">
-        Combat loneliness in education by connecting individuals based on shared interests.
-    </p>
-    <button
-        onClick={() => { window.location.href = "/home"; }}
-        className={`mt-6 sm:mt-8 bg-white text-blue-600 px-8 sm:px-10 py-3 sm:py-4 rounded-full font-semibold uppercase text-lg shadow-lg transform transition-transform hover:-translate-y-2 hover:shadow-2xl`}
-    >
-        Get Started
-    </button>
-    <button
-        onClick={toggleDarkMode}
-        className="mt-4 sm:mt-8 bg-gray-600 text-white px-8 sm:px-10 py-3 sm:py-4 rounded-full font-semibold uppercase text-lg shadow-lg transform transition-transform hover:-translate-y-2 hover:shadow-2xl"
-    >
-        {darkMode ? 'Light Mode' : 'Dark Mode'}
-    </button>
-</header>
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-widest text-blue-100 drop-shadow-lg max-w-full mx-auto">
+                    InterestFusion
+                </h1>
+                <p className="mt-4 sm:mt-6 text-lg sm:text-xl italic font-light text-white/80 max-w-3xl mx-auto leading-relaxed">
+                    Combat loneliness in education by connecting individuals based on shared interests.
+                </p>
+                <button
+                    onClick={() => { window.location.href = "/home"; }}
+                    className={`mt-6 sm:mt-8 bg-white text-blue-600 px-8 sm:px-10 py-3 sm:py-4 rounded-full font-semibold uppercase text-lg shadow-lg transform transition-transform hover:-translate-y-2 hover:shadow-2xl`}
+                >
+                    Get Started
+                </button>
+                <button
+                    onClick={toggleDarkMode}
+                    className="mt-4 sm:mt-8 bg-gray-600 text-white px-8 sm:px-10 py-3 sm:py-4 rounded-full font-semibold uppercase text-lg shadow-lg transform transition-transform hover:-translate-y-2 hover:shadow-2xl"
+                >
+                    {darkMode ? 'Light Mode' : 'Dark Mode'}
+                </button>
+            </header>
 
 
             {/* About Us Section */}
