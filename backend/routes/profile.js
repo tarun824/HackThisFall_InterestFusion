@@ -5,7 +5,7 @@ const { viewProfile, editProfile, addAvatar } = require("../controllers/profileC
 const multer = require("multer");
 
 const router = express.Router();
-const upload = multer({ dest: "tmp/" });
+const upload = multer({storage:multer.memoryStorage()});
 
 // Profile Routes
 router.get("/profile/view", userAuth, viewProfile);
