@@ -1,9 +1,7 @@
 import React from "react";
-import ChatHeader from "./components/ChatHeader";
 import ListOfChats from "./components/ListOfChats";
 import OpenedChat from "./components/OpenedChat";
 import ChatConnectionDetails from "./components/ChatConnectionDetails";
-import NavBar2 from "../Navbar/Navbar2";
 
 function Chat() {
   return (
