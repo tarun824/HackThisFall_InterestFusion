@@ -1,5 +1,5 @@
 import React from "react";
-import ChatConnectionSingleCard from "./chatConnectionSingleCard";
+import ChatConnectionSingleCard from "./ChatConnectionSingleCard";
 import { IoSearch } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
