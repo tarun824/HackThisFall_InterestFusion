@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Footer from '../Footer';
+import Navbar1 from '../Navbar/Navbar1'
 
 const LandingPage = () => {
     const [darkMode, setDarkMode] = useState(false);
@@ -14,6 +15,7 @@ const LandingPage = () => {
     return (
         <div className={`flex flex-col items-center min-h-screen transition-all ${darkMode ? 'bg-gray-800' : 'bg-gradient-to-t from-blue-100 to-white'}`}>
             {/* Header Section */}
+            <Navbar1 />
             <header className={`py-16 px-8 text-center w-full ${darkMode ? 'bg-gradient-to-r from-blue-800 via-purple-500 to-blue-800' : 'bg-gradient-to-r from-blue-500 via-purple-600 to-blue-500'} text-white shadow-lg`}>
                 <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-widest text-blue-100 drop-shadow-lg max-w-full mx-auto">
                     InterestFusion
