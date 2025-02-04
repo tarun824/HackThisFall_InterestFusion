@@ -27,7 +27,7 @@ const viewProfile = async (req, res ,next) => {
 
     res.json(user);
   } catch (err) {
-    next(errorMonitor)
+    next(err)
   }
 };
 
