@@ -2,11 +2,12 @@
 const { getAsync, setAsync, delAsync } = require("../config/redis");
 const { validateEditProfileData } = require("../utils/validation");
 const { upload_on_cloudinary } = require("../utils/cloudinary");
+const { errorMonitor } = require("winston-daily-rotate-file");
 
 const CACHE_DURATION = 3600;
 
 // View Profile (GET /profile/view)
-const viewProfile = async (req, res) => {
+const viewProfile = async (req, res ,next) => {
   try {
     const userId = req.user.id;
 
@@ -26,12 +27,12 @@ const viewProfile = async (req, res) => {
 
     res.json(user);
   } catch (err) {
-    res.status(400).send("ERROR: " + err.message);
+    next(errorMonitor)
   }
 };
 
 // Edit Profile (PATCH /profile/edit)
-const editProfile = async (req, res) => {
+const editProfile = async (req, res , next) => {
   try {
     if (!validateEditProfileData(req)) {
       throw new Error("Invalid Edit Request");
@@ -52,7 +53,7 @@ const editProfile = async (req, res) => {
       data: loggedInUser,
     });
   } catch (err) {
-    res.status(400).send("ERROR: " + err.message);
+    next(err);
   }
 };
 
@@ -110,7 +111,7 @@ const editProfile = async (req, res) => {
 //   }
 // };
 
-const addAvatar = async (req, res) => {
+const addAvatar = async (req, res,next) => {
   try {
     console.log("editProfile called");
 
@@ -135,9 +136,7 @@ const addAvatar = async (req, res) => {
     console.log(`Profile updated successfully for user ${user.firstName} ${user.lastName}.`);
     res.json({ message: "Profile updated successfully.", user });
   } catch (error) {
-    console.error("Error during profile update:", error);
-    // Handle unexpected errors
-    res.status(500).json({ error: "An error occurred while updating the profile." });
+    next(error)
   }
 }
 

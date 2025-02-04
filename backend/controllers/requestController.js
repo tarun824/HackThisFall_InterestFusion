@@ -4,7 +4,7 @@ const User = require("../models/user");
 const sendPushNotification = require("../config/send_push_notification");
 
 // Send Connection Request (POST /request/send/:status/:toUserId)
-const sendConnectionRequest = async (req, res) => {
+const sendConnectionRequest = async (req, res ,next) => {
   try {
     const fromUserId = req.user._id;
     const toUserId = req.params.toUserId;
@@ -52,12 +52,12 @@ const sendConnectionRequest = async (req, res) => {
       data,
     });
   } catch (err) {
-    res.status(400).send("ERROR: " + err.message);
+    next(err);
   }
 };
 
 // Review Connection Request (POST /request/review/:status/:requestId)
-const reviewConnectionRequest = async (req, res) => {
+const reviewConnectionRequest = async (req, res,next) => {
   try {
     const loggedInUser = req.user;
     const { status, requestId } = req.params;
@@ -97,7 +97,7 @@ const reviewConnectionRequest = async (req, res) => {
 
     res.json({ message: "Connection request " + status, data });
   } catch (err) {
-    res.status(400).send("ERROR: " + err.message);
+    next(err);
   }
 };
 

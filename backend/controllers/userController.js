@@ -5,7 +5,7 @@ const User = require("../models/user");
 const USER_SAFE_DATA = "firstName lastName photoUrl age gender about skills";
 
 // Get all pending connection requests for the logged-in user
-const getPendingRequests = async (req, res) => {
+const getPendingRequests = async (req, res,next) => {
   try {
     const loggedInUser = req.user;
 
@@ -19,12 +19,12 @@ const getPendingRequests = async (req, res) => {
       data: connectionRequests,
     });
   } catch (err) {
-    res.status(400).send("ERROR: " + err.message);
+    next(err);
   }
 };
 
 // Get all accepted connections for the logged-in user
-const getUserConnections = async (req, res) => {
+const getUserConnections = async (req, res, next) => {
   try {
     const loggedInUser = req.user;
 
@@ -45,12 +45,12 @@ const getUserConnections = async (req, res) => {
 
     res.json({ data });
   } catch (err) {
-    res.status(400).send({ message: err.message });
+    next(err)
   }
 };
 
 // Get user feed (excluding connections and requests)
-const getUserFeed = async (req, res) => {
+const getUserFeed = async (req, res, next) => {
   try {
     const loggedInUser = req.user;
 
@@ -81,7 +81,7 @@ const getUserFeed = async (req, res) => {
 
     res.json({ data: users });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    next(err);
   }
 };
 

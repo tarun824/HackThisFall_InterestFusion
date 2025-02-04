@@ -142,7 +142,7 @@ const emailTemplates = {
 
 class AuthController {
   // Signup controller
-  async signup(req, res) {
+  async signup(req, res, next) {
     try {
       validateSignUpData(req);
       const { firstName, lastName, emailId, password, playerId } = req.body;
@@ -176,12 +176,12 @@ class AuthController {
 
       res.json({ message: "Welcome to Interest Fusion!", data: savedUser });
     } catch (err) {
-      res.status(400).send("ERROR: " + err.message);
+      next(err);
     }
   }
 
   // Login controller
-  async login(req, res) {
+  async login(req, res, next) {
     try {
       const { emailId, password, playerId } = req.body;
       const loginSchemaValidator = loginSchema.safeParse({
@@ -229,12 +229,12 @@ class AuthController {
         throw new Error("Invalid credentials");
       }
     } catch (err) {
-      res.status(400).send("ERROR: " + err.message);
+      next(err);
     }
   }
 
   // Logout controller
-  async logout(req, res) {
+  async logout(req, res ,next) {
     res.cookie("token", null, {
       expires: new Date(Date.now()),
       sameSite: "None",
