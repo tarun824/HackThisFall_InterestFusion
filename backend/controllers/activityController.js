@@ -16,7 +16,7 @@ const logsQuerySchema = z.object({
 });
 
 // Fetch activity logs (filtered by endpoint and method)
-const getActivityLogs = async (req, res) => {
+const getActivityLogs = async (req, res,next) => {
   try {
     const { endpoint, method } = req.query; // Optional query params
     const query = {};
@@ -33,8 +33,7 @@ const getActivityLogs = async (req, res) => {
     const logs = await ActivityLog.find(query).sort({ timestamp: -1 }); // Most recent first
     res.status(200).json(logs);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Error fetching logs" });
+    next(error);
   }
 };
 

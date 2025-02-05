@@ -5,7 +5,7 @@ const rateLimit = require("express-rate-limit");
 const connectDB = require("./config/database");
 const { redisClient } = require("./config/redis"); // Import Redis client
 const logger = require("./utils/logger"); 
-
+const errorHandler =require("./middlewares/errorhandler")
 const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
@@ -80,7 +80,7 @@ app.use("/", requestRouter);
 app.use("/", userRouter);
 app.use("/api/", activity);
 app.use("/", metricsRouter);
-
+app.use(errorHandler);
 app.get("/", (req, res) => {
   res.send("Server is running");
 });
