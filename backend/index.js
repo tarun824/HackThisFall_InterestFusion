@@ -1,11 +1,13 @@
 const express = require("express");
+const http = require("http"); // Import HTTP to attach WebSocket
+const WebSocket = require("ws"); // Import WebSocket
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const rateLimit = require("express-rate-limit");
 const connectDB = require("./config/database");
-const { redisClient } = require("./config/redis"); // Import Redis client
+const { redisClient } = require("./config/redis");
 const logger = require("./utils/logger"); 
-const errorHandler =require("./middlewares/errorhandler")
+const errorHandler = require("./middlewares/errorhandler");
 const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
@@ -19,61 +21,50 @@ const responseTime = require("response-time");
 const app = express();
 const PORT = process.env.PORT || 7777;
 
-const collectMetrics = client.collectDefaultMetrics;
-collectMetrics({ register: client.register });
-const trackTime = new client.Histogram({
-  name: "track_all_req_res_time",
-  help: "Tracking all the Request and Responce Time",
-  labelNames: ["method", "route", "status_code"],
-  buckets: [1, 50, 100, 200, 400, 500, 800, 1000, 2000],
-});
-// To Track total number of Request
-const trackTotalRequest = new client.Counter({
-  name: "track_total_request",
-  help: "This will track total request",
+// Create HTTP server
+const server = http.createServer(app);
+
+// Initialize WebSocket server
+const wss = new WebSocket.Server({ server });
+
+// WebSocket connection logic
+wss.on("connection", (ws) => {
+  logger.info("WebSocket client connected");
+
+  // Listen for messages from the client
+  ws.on("message", (message) => {
+    logger.info(`WebSocket message received: ${message}`);
+    ws.send(`Echo: ${message}`); // Echo the message back to the client
+  });
+
+  // Handle client disconnect
+  ws.on("close", () => {
+    logger.info("WebSocket client disconnected");
+  });
 });
 
-// Allowed origins for CORS
-const allowedOrigins = [
-  "https://intrest-fusion-frontend.vercel.app",
-  "https://another-frontend.vercel.app",
-  "http://localhost:5173",
-  "http://localhost:3000",
-];
-
-// Middleware
+// Middleware and Routes (your existing code remains unchanged)
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: [
+      "https://intrest-fusion-frontend.vercel.app",
+      "https://another-frontend.vercel.app",
+      "http://localhost:5173",
+      "http://localhost:3000",
+    ],
     credentials: true,
   })
 );
 
-app.use(
-  responseTime((req, res, time) => {
-    trackTotalRequest.inc();
-    trackTime
-      .labels({
-        method: req.method,
-        route: req.url,
-        status_code: res.statusCode,
-      })
-      .observe(time);
-  })
-);
-
 const apiLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
+  windowMs: 60 * 60 * 1000,
   max: 5000,
   message: "Too many requests, please try again later.",
 });
-
 app.use(apiLimiter);
-
 app.use(express.json());
 app.use(cookieParser());
 app.use(analyticsLogger);
-// Routes
 app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
@@ -81,28 +72,17 @@ app.use("/", userRouter);
 app.use("/api/", activity);
 app.use("/", metricsRouter);
 app.use(errorHandler);
-app.get("/", (req, res) => {
-  res.send("Server is running");
-});
 
-// Database and Redis connection, then server initialization
+// Database connection and server start
 const startServer = async () => {
   try {
     await connectDB();
-    //console.log("✅ Database connection established...");
-    logger.info("Database connection established....");
-    // Initialize Redis connection
-    //Uncomment this when you need redis caching
-    //redisClient.connect(); // Explicitly connect if using Redis 4.x+
-    logger.info("✅ Redis connection established...");
+    logger.info("Database connection established...");
+    // redisClient.connect(); // Uncomment if Redis is needed
+    logger.info("Redis connection established...");
 
-      //api check
-      app.get("/", (req, res) => {
-        res.send("Welcome to Internet Fusion API");
-        logger.info("Welcome to Internet Fusion API");
-      });
-    // Start server
-    app.listen(PORT, () => {
+    // Start the server with WebSocket
+    server.listen(PORT, () => {
       logger.info(`🚀 Server is running on port ${PORT}...`);
     });
   } catch (err) {
