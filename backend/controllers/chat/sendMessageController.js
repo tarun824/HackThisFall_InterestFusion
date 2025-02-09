@@ -1,9 +1,3 @@
-// required API's
-// add message
-// get all message/:chatId
-// get unSeen messages
-// get all connections
-
 const Chat = require("../../models/chat");
 const ConnectionRequestModel = require("../../models/connectionRequest");
 const z = require("zod");
@@ -12,7 +6,6 @@ const { ChatMessage } = require("../../models/chatMessage");
 // Initaly
 // User wants all the chat that he has
 // get all Chats only chat Names with last message with
-// get all the
 
 // Scenario:
 // New Device:
@@ -29,8 +22,6 @@ How it should work
 >When user clicks on any chat
   -> /chatData/:chatId will be called
     -> will return all the chat messages 
-
-> /send_message will be called if any message need to be sent
 
 */
 

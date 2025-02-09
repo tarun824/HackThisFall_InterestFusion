@@ -21,18 +21,6 @@ const chatListController = async (req, res) => {
               "$messages",
               { $subtract: [{ $size: "$messages" }, 1] },
             ],
-            // $cond: {
-            //   if: {
-            //     $gt: [{ $size: "$messages" }, 0],
-            //   },
-            //   then: {
-            //     $arrayElemAt: [
-            //       "$messages",
-            //       { $subtract: [{ $size: "$messages" }, 1] },
-            //     ],
-            //   },
-            //   else: [],
-            // },
           },
         },
       },
