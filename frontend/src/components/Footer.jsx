@@ -3,7 +3,7 @@ import {
   Menu, X, ChevronDown, Twitter, Facebook, Youtube, Instagram, 
   Mail, Phone, MapPin, ExternalLink 
 } from 'lucide-react';
-
+import { FaXTwitter } from "react-icons/fa6";
 const Footer = () => {
   const [email, setEmail] = useState('');
 
@@ -24,7 +24,7 @@ const Footer = () => {
               Connecting students through shared interests and fostering meaningful relationships in education.
             </p>
             <div className="flex space-x-4">
-              <SocialIcon Icon={Twitter} href="#" />
+              <SocialIcon Icon={FaXTwitter} href="#" />
               <SocialIcon Icon={Facebook} href="#" />
               <SocialIcon Icon={Instagram} href="#" />
               <SocialIcon Icon={Youtube} href="#" />
