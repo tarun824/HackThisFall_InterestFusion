@@ -1,5 +1,10 @@
 // controllers/profileController.js
-const { getAsync, setAsync, delAsync } = require("../config/redis");
+const {
+  getAsync,
+  setAsync,
+  delAsync,
+  redisClient,
+} = require("../config/redis");
 const { validateEditProfileData } = require("../utils/validation");
 const { upload_on_cloudinary } = require("../utils/cloudinary");
 const { errorMonitor } = require("winston-daily-rotate-file");
@@ -12,7 +17,7 @@ const viewProfile = async (req, res, next) => {
     const userId = req.user.id;
 
     // Check Redis cache
-    const cachedData = await getAsync(`user:${userId}`);
+    const cachedData = await redisClient.get(`user:${userId}`);
     if (cachedData) {
       console.log("✅ Serving from cache...");
       return res.json(JSON.parse(cachedData));
@@ -22,12 +27,9 @@ const viewProfile = async (req, res, next) => {
     const user = req.user;
 
     // Cache the data
-    await setAsync(
-      `user:${userId}`,
-      JSON.stringify(user),
-      "EX",
-      CACHE_DURATION
-    );
+    await redisClient.set(`user:${userId}`, JSON.stringify(user), {
+      EX: CACHE_DURATION,
+    });
     console.log("✅ Cached user data...");
 
     res.json(user);
