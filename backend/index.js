@@ -1,12 +1,11 @@
 const express = require("express");
 const http = require("http"); // Import HTTP to attach WebSocket
-const WebSocket = require("ws"); // Import WebSocket
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const rateLimit = require("express-rate-limit");
 const connectDB = require("./config/database");
 const { redisClient } = require("./config/redis");
-const logger = require("./utils/logger"); 
+const logger = require("./utils/logger");
 const errorHandler = require("./middlewares/errorhandler");
 const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
@@ -23,25 +22,6 @@ const PORT = process.env.PORT || 7777;
 
 // Create HTTP server
 const server = http.createServer(app);
-
-// Initialize WebSocket server
-const wss = new WebSocket.Server({ server });
-
-// WebSocket connection logic
-wss.on("connection", (ws) => {
-  logger.info("WebSocket client connected");
-
-  // Listen for messages from the client
-  ws.on("message", (message) => {
-    logger.info(`WebSocket message received: ${message}`);
-    ws.send(`Echo: ${message}`); // Echo the message back to the client
-  });
-
-  // Handle client disconnect
-  ws.on("close", () => {
-    logger.info("WebSocket client disconnected");
-  });
-});
 
 // Middleware and Routes (your existing code remains unchanged)
 app.use(

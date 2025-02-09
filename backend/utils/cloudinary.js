@@ -1,10 +1,15 @@
 // const { v2: cloudinary } = require('cloudinary');
-import { v2 as cloudinary } from 'cloudinary';
-import streamifier from "streamifier"
-import dotenv from "dotenv"
-dotenv.config();  // Add this line to load .env variables
+import { v2 as cloudinary } from "cloudinary";
+import streamifier from "streamifier";
+import dotenv from "dotenv";
+dotenv.config(); // Add this line to load .env variables
 // console.log("enterde cloudinary")
-console.log("this are envvariables",process.env.API_KEY,process.env.API_SECRET, process.env.CLOUD_NAME)
+console.log(
+  "this are envvariables",
+  process.env.API_KEY,
+  process.env.API_SECRET,
+  process.env.CLOUD_NAME
+);
 const upload_on_cloudinary = async (fileBuffer, folderName = "demo") => {
   cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
@@ -41,4 +46,4 @@ const upload_on_cloudinary = async (fileBuffer, folderName = "demo") => {
   }
 };
 
-export {upload_on_cloudinary}
+export { upload_on_cloudinary };
