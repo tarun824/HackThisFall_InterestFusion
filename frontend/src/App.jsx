@@ -13,8 +13,17 @@ import PageNotFound from "./components/PageNotFound";
 import { ONESIGNAL_APP_ID } from "./utils/constants";
 import OneSignal from "react-onesignal";
 import Chat from "./components/Chat/Chat";
+import About from "./components/About"; // Import About component
+import Contact from "./components/Contact"
+import StudyGroup from "./components/StudyGroup";
+import CommunityEvents from "./components/CommunityEvents";
+import InterestMatching from "./components/InterestMatching"
+import SupportPage from "./components/SupportPage";
+import Blog from "./components/Blog";
+import FAQ from "./components/FAQ";
 
-function App() {
+
+function App() {   
   try {
     OneSignal.init({
       appId: ONESIGNAL_APP_ID,
@@ -27,6 +36,7 @@ function App() {
   } catch (e) {
     console.log(e);
   }
+
   return (
     <>
       <Provider store={appStore}>
@@ -34,6 +44,19 @@ function App() {
           <Routes>
             {/* Separate layout for LandingPage */}
             <Route path="/" element={<LandingPage />} />
+
+            {/* About Page */}
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/services/groups" element={<StudyGroup />} />
+            <Route path="/services/events" element={<CommunityEvents/>} />
+            <Route path="/services/matching" element={<InterestMatching />} /> 
+            <Route path="/support" element={<SupportPage />} /> 
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/faq" element={<FAQ />} />
+
+
+
 
             {/* Parent Route with NavBar and Footer */}
             <Route element={<Body />}>
