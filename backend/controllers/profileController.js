@@ -7,7 +7,7 @@ const { errorMonitor } = require("winston-daily-rotate-file");
 const CACHE_DURATION = 3600;
 
 // View Profile (GET /profile/view)
-const viewProfile = async (req, res ,next) => {
+const viewProfile = async (req, res, next) => {
   try {
     const userId = req.user.id;
 
@@ -22,17 +22,22 @@ const viewProfile = async (req, res ,next) => {
     const user = req.user;
 
     // Cache the data
-    await setAsync(`user:${userId}`, JSON.stringify(user), "EX", CACHE_DURATION);
+    await setAsync(
+      `user:${userId}`,
+      JSON.stringify(user),
+      "EX",
+      CACHE_DURATION
+    );
     console.log("✅ Cached user data...");
 
     res.json(user);
   } catch (err) {
-    next(err)
+    next(err);
   }
 };
 
 // Edit Profile (PATCH /profile/edit)
-const editProfile = async (req, res , next) => {
+const editProfile = async (req, res, next) => {
   try {
     if (!validateEditProfileData(req)) {
       throw new Error("Invalid Edit Request");
@@ -111,7 +116,7 @@ const editProfile = async (req, res , next) => {
 //   }
 // };
 
-const addAvatar = async (req, res,next) => {
+const addAvatar = async (req, res, next) => {
   try {
     console.log("editProfile called");
 
@@ -125,7 +130,7 @@ const addAvatar = async (req, res,next) => {
     // console.log(filebuffer)
     if (filebuffer) {
       //  If an image is provided, upload it to Cloudinary
-      console.log("entered into fie buffer if")
+      console.log("entered into fie buffer if");
       const uploadedurl = await upload_on_cloudinary(filebuffer);
       user.photoUrl = uploadedurl;
     }
@@ -133,12 +138,14 @@ const addAvatar = async (req, res,next) => {
     //   Save the updated user information
     await user.save();
 
-    console.log(`Profile updated successfully for user ${user.firstName} ${user.lastName}.`);
+    console.log(
+      `Profile updated successfully for user ${user.firstName} ${user.lastName}.`
+    );
     res.json({ message: "Profile updated successfully.", user });
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
 
 module.exports = {
   viewProfile,
