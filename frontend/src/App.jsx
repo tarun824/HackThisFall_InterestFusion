@@ -22,6 +22,7 @@ import InterestMatching from "./components/InterestMatching"
 import SupportPage from "./components/SupportPage";
 import Blog from "./components/Blog";
 import FAQ from "./components/FAQ";
+import CursorTrail from "./components/CursorTrail";
 
 
 function App() {
@@ -73,6 +74,8 @@ function App() {
           </Routes>
         </BrowserRouter>
       </Provider>
+      <CursorTrail/>
+
     </>
   );
 }
