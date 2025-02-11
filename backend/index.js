@@ -86,6 +86,9 @@ app.use(apiLimiter);
 app.use(express.json());
 app.use(cookieParser());
 app.use(analyticsLogger);
+app.use('/test',async (req,res) => {
+  res.send("interestfusion server running")
+})
 app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
