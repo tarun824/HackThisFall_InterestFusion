@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Users, Lightbulb, PlusCircle } from "lucide-react";
+import { PlusCircle, X } from "lucide-react";
 
 const Community = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <motion.div 
       initial={{ opacity: 0 }} 
@@ -27,6 +29,7 @@ const Community = () => {
         whileTap={{ scale: 0.9, rotate: -5 }}
         transition={{ type: "spring", stiffness: 300 }}
         className="flex items-center gap-2 px-4 py-2 bg-[#19202E] text-white rounded-lg shadow-md hover:bg-[#1D2432] transition"
+        onClick={() => setIsModalOpen(true)}
       >
         <PlusCircle size={20} /> Add Your Thought
       </motion.button>
@@ -69,6 +72,43 @@ const Community = () => {
           </motion.div>
         </div>
       </motion.div>
+      
+      {/* Modal */}
+      {isModalOpen && (
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.8 }} 
+          animate={{ opacity: 1, scale: 1 }} 
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.3 }}
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+        >
+          <motion.div 
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
+            transition={{ type: "spring", stiffness: 100 }}
+            className="bg-[#19202E] p-6 rounded-lg shadow-lg w-80 text-white relative"
+          >
+            <button 
+              className="absolute top-2 right-2 text-gray-400 hover:text-white"
+              onClick={() => setIsModalOpen(false)}
+            >
+              <X size={20} />
+            </button>
+            <h2 className="text-lg font-semibold mb-2">Share Your Thought</h2>
+            <textarea 
+              className="w-full p-2 rounded-lg bg-[#272F3E] text-white focus:outline-none"
+              placeholder="Write something..."
+            ></textarea>
+            <button 
+              className="mt-3 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg w-full"
+              onClick={() => setIsModalOpen(false)}
+            >
+              Post
+            </button>
+          </motion.div>
+        </motion.div>
+      )}
     </motion.div>
   );
 };
