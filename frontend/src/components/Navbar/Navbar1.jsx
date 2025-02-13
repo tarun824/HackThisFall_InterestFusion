@@ -43,6 +43,10 @@ const Navbar1 = () => {
       ],
     },
     {
+      name:'FusionCommunity',
+      href: '/community'
+    },
+    {
       name: 'Contact',
       href: '/contact',
     },

@@ -23,6 +23,7 @@ import SupportPage from "./components/SupportPage";
 import Blog from "./components/Blog";
 import FAQ from "./components/FAQ";
 import CursorTrail from "./components/CursorTrail";
+import Community from "./components/Community";
 
 
 function App() {
@@ -71,6 +72,7 @@ function App() {
             </Route>
             <Route path="chat" element={<Chat />} />
             <Route path="*" element={<PageNotFound />} />
+            <Route path="/community" element= {<Community/>} />
           </Routes>
         </BrowserRouter>
       </Provider>
