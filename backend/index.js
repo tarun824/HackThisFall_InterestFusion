@@ -43,6 +43,7 @@ app.use(
       "https://another-frontend.vercel.app",
       "http://localhost:5173",
       "http://localhost:3000",
+      "*"
     ],
     credentials: true,
   })
@@ -86,6 +87,9 @@ app.use(apiLimiter);
 app.use(express.json());
 app.use(cookieParser());
 app.use(analyticsLogger);
+app.use('/test',async (req,res) => {
+  res.send("interestfusion server running")
+})
 app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
