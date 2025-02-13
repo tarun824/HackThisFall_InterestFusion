@@ -17,13 +17,13 @@ import Chat from "./components/Chat/Chat";
 import About from "./components/About"; // Import About component
 import Contact from "./components/Contact"
 import StudyGroup from "./components/StudyGroup";
-import CommunityEvents from "./components/CommunityEvents";
 import InterestMatching from "./components/InterestMatching"
 import SupportPage from "./components/SupportPage";
 import Blog from "./components/Blog";
 import FAQ from "./components/FAQ";
 import CursorTrail from "./components/CursorTrail";
 import Community from "./components/Community";
+import CommunityEvents from "./components/Events/CommunityEvents";
 
 
 function App() {
