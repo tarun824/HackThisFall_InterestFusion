@@ -24,7 +24,7 @@ import FAQ from "./components/FAQ";
 import CursorTrail from "./components/CursorTrail";
 import Community from "./components/Community";
 import CommunityEvents from "./components/Events/CommunityEvents";
-
+import PrivacyPolicy from "./components/Privacy";
 
 function App() {
   try {
@@ -58,7 +58,7 @@ function App() {
             <Route path="/support" element={<SupportPage />} /> 
             <Route path="/blog" element={<Blog />} />
             <Route path="/faq" element={<FAQ />} />
-
+            <Route path="/privacy" element={<PrivacyPolicy/>}></Route>
 
 
 
