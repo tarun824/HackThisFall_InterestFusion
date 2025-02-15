@@ -25,6 +25,7 @@ import CursorTrail from "./components/CursorTrail";
 import Community from "./components/Community";
 import CommunityEvents from "./components/Events/CommunityEvents";
 import PrivacyPolicy from "./components/Privacy";
+import TermsOfService from "./components/Terms";
 
 function App() {
   try {
@@ -59,7 +60,7 @@ function App() {
             <Route path="/blog" element={<Blog />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/privacy" element={<PrivacyPolicy/>}></Route>
-
+            <Route path="/terms" element={<TermsOfService/>}></Route>
 
 
             {/* Parent Route with NavBar and Footer */}
