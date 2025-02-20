@@ -1,3 +1,5 @@
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const fusionUser = require("../models/fusionUser");
 const fusionPost = require("../models/fusionPost");
 
@@ -52,6 +54,42 @@ const fusionSignup = async (req, res) => {
     }
 };
 
+
+const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
+
+// Centralized Auth Controller
+const fusionAuth = async (req, res) => {
+    try {
+        const { uname, password } = req.body;
+
+        if (!uname || !password) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
+
+        let user = await fusionUser.findOne({ username:uname });
+
+        if (!user) {
+            // Register user if not found
+            const hashedPassword = await bcrypt.hash(password, 10);
+            user = new fusionUser({ username:uname, password: hashedPassword });
+            await user.save();
+        } else {
+            // Verify password for login
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch) {
+                return res.status(400).json({ message: "Invalid username or password" });
+            }
+        }
+
+        // Generate JWT token
+        const token = jwt.sign({ id: user._id, uname: user.uname }, JWT_SECRET, { expiresIn: "1h" });
+
+        res.status(200).json({ message: "Authentication successful", user, token });
+    } catch (error) {
+        res.status(500).json({ message: "Server error", error });
+    }
+};
+
 // Publish a new post
 const fusionPublishpost = async (req, res) => {
     try {
@@ -82,4 +120,4 @@ const fusionPublishpost = async (req, res) => {
     }
 };
 
-module.exports = { fusionRegister, fusionSignup, fusionPublishpost };
+module.exports = { fusionRegister, fusionSignup, fusionPublishpost, fusionAuth };

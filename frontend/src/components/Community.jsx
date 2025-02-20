@@ -1,9 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { PlusCircle, X } from "lucide-react";
+import { BASE_URL } from "../utils/constants";
+import axios from "axios";
 
 const Community = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [uname, setUname] = useState("");
+  const [password, setPassword] = useState("");
+  const [postText, setPostText] = useState("");
+  
+  useEffect(() => {
+    const token = localStorage.getItem("u_token");
+    if (!token) {
+      setIsAuthModalOpen(true);
+    }
+  }, []);
+
+  const handleAuth = () => {
+    if (uname && password) {
+      axios.post(`${BASE_URL}/fusionauth`, { uname, password })
+      .then((res) => {
+        localStorage.setItem("u_token", res.data.token);
+        setIsAuthModalOpen(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
+  };
+
+  const handlePost = () => {
+    const token = localStorage.getItem("u_token");
+    if (postText.trim() && token) {
+      axios.post(`${BASE_URL}/addPost`, { text: postText }, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then((res) => {
+        console.log("Post added:", res.data);
+        setIsModalOpen(false);
+        setPostText("");
+      })
+      .catch((err) => {
+        console.error("Error adding post:", err);
+      });
+    }
+  };
 
   return (
     <motion.div 
@@ -13,7 +56,6 @@ const Community = () => {
       transition={{ duration: 1 }}
       className="bg-[#111826] min-h-screen flex flex-col items-center p-6"
     >
-      {/* Header Section */}
       <motion.h1 
         initial={{ opacity: 0, y: -50 }} 
         animate={{ opacity: 1, y: 0 }} 
@@ -23,7 +65,6 @@ const Community = () => {
         Welcome to Fusion Community
       </motion.h1>
       
-      {/* Add Thought Button */}
       <motion.button 
         whileHover={{ scale: 1.1, rotate: 5 }}
         whileTap={{ scale: 0.9, rotate: -5 }}
@@ -34,46 +75,6 @@ const Community = () => {
         <PlusCircle size={20} /> Add Your Thought
       </motion.button>
       
-      {/* Latest Posts Section */}
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.8 }} 
-        animate={{ opacity: 1, scale: 1 }} 
-        transition={{ duration: 0.8 }}
-        className="w-full max-w-2xl mt-6"
-      >
-        <motion.h2 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ type: "spring", stiffness: 100 }}
-          className="text-xl font-semibold text-[#ffffff] mb-3"
-        >
-          Latest Posts
-        </motion.h2>
-        <div className="space-y-4">
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }} 
-            animate={{ opacity: 1, x: 0 }} 
-            transition={{ type: "spring", stiffness: 100 }}
-            whileHover={{ scale: 1.02 }}
-            className="p-4 border rounded-lg shadow-md bg-[#272F3E]"
-          >
-            <p className="text-white">"React is amazing! Loving the Framer Motion animations."</p>
-            <p className="text-sm text-gray-300 mt-1">- User123</p>
-          </motion.div>
-          <motion.div 
-            initial={{ opacity: 0, x: 50 }} 
-            animate={{ opacity: 1, x: 0 }} 
-            transition={{ type: "spring", stiffness: 100 }}
-            whileHover={{ scale: 1.02 }}
-            className="p-4 border rounded-lg shadow-md bg-[#272F3E]"
-          >
-            <p className="text-white">"Fusion Community is the best place to share ideas!"</p>
-            <p className="text-sm text-gray-300 mt-1">- DevGuru</p>
-          </motion.div>
-        </div>
-      </motion.div>
-      
-      {/* Modal */}
       {isModalOpen && (
         <motion.div 
           initial={{ opacity: 0, scale: 0.8 }} 
@@ -99,12 +100,54 @@ const Community = () => {
             <textarea 
               className="w-full p-2 rounded-lg bg-[#272F3E] text-white focus:outline-none"
               placeholder="Write something..."
+              value={postText}
+              onChange={(e) => setPostText(e.target.value)}
             ></textarea>
             <button 
               className="mt-3 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg w-full"
-              onClick={() => setIsModalOpen(false)}
+              onClick={handlePost}
             >
               Post
+            </button>
+          </motion.div>
+        </motion.div>
+      )}
+      
+      {isAuthModalOpen && (
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.8 }} 
+          animate={{ opacity: 1, scale: 1 }} 
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.3 }}
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+        >
+          <motion.div 
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
+            transition={{ type: "spring", stiffness: 100 }}
+            className="bg-[#19202E] p-6 rounded-lg shadow-lg w-80 text-white relative"
+          >
+            <h2 className="text-lg font-semibold mb-2">Login / Signup</h2>
+            <input 
+              type="text" 
+              placeholder="Username" 
+              value={uname} 
+              onChange={(e) => setUname(e.target.value)}
+              className="w-full p-2 mb-2 rounded-lg bg-[#272F3E] text-white focus:outline-none"
+            />
+            <input 
+              type="password" 
+              placeholder="Password" 
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full p-2 mb-2 rounded-lg bg-[#272F3E] text-white focus:outline-none"
+            />
+            <button 
+              className="mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg w-full"
+              onClick={handleAuth}
+            >
+              Continue
             </button>
           </motion.div>
         </motion.div>

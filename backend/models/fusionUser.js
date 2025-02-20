@@ -11,10 +11,10 @@ const fusionUserSchema = new mongoose.Schema(
             type:String,
             required: true
         },
-        publishedPost:{
+        publishedPost:[{
             type: mongoose.Schema.Types.ObjectId,
             ref:"fusionEvent"
-        }
+        }]
     }
 )
 

@@ -8,6 +8,7 @@ const { redisClient } = require("./config/redis");
 const logger = require("./utils/logger");
 const errorHandler = require("./middlewares/errorhandler");
 const authRouter = require("./routes/auth");
+const fusionRouter = require("./routes/fusionComm.route");
 const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
@@ -96,6 +97,7 @@ app.use("/", requestRouter);
 app.use("/", userRouter);
 app.use("/api/", activity);
 app.use("/", metricsRouter);
+app.use("/",fusionRouter)
 app.use(errorHandler);
 
 // Database connection and server start
