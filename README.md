@@ -121,13 +121,6 @@ graph TD
 
 ## 🤝 Contributing
 
-<div align = "center">
- <h3>To our Contributors, Thank you for being a part of this project!</h3>
-
-![Contributors](https://contrib.rocks/image?repo=KGupta2601/HackThisFall_InterestFusion)<br>
-
-</div>
-
 We welcome contributions! Check out our [Contributing Guidelines](CONTRIBUTING.md) for details on how to get started.
 
 <details>
