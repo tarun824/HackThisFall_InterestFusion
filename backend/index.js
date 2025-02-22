@@ -23,6 +23,7 @@ const {
 } = require("./socket_listeners/addToUserOnlineEvent");
 const sendMessageEvent = require("./socket_listeners/sendMessageEvent");
 const disconnectEvent = require("./socket_listeners/disconnectEvent");
+const eventRouter = require("./routes/fusionEvent.routes");
 
 const app = express();
 const PORT = process.env.PORT || 7777;
@@ -98,6 +99,7 @@ app.use("/", userRouter);
 app.use("/api/", activity);
 app.use("/", metricsRouter);
 app.use("/",fusionRouter)
+app.use('/',eventRouter)
 app.use(errorHandler);
 
 // Database connection and server start
