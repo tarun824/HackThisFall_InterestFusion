@@ -189,11 +189,13 @@ class AuthController {
         password: password,
         onesignalPlayerId: playerId,
       });
-      
+
       if (!loginSchemaValidator.success) {
         return res
           .status(400)
-          .send({ message: "Validation Failed :" + loginSchemaValidator.error });
+          .send({
+            message: "Validation Failed :" + loginSchemaValidator.error,
+          });
       }
 
       const user = await User.findOne({ emailId: emailId });
@@ -234,7 +236,7 @@ class AuthController {
   }
 
   // Logout controller
-  async logout(req, res ,next) {
+  async logout(req, res, next) {
     res.cookie("token", null, {
       expires: new Date(Date.now()),
       sameSite: "None",
@@ -247,7 +249,7 @@ class AuthController {
   async forgotPassword(req, res) {
     const userEmailID = req.body.emailId;
     const checkEmailSchema = emailSchema.safeParse(userEmailID);
-    
+
     if (!checkEmailSchema) {
       return res
         .status(400)
@@ -269,12 +271,12 @@ class AuthController {
       token: token,
     });
     await newToken.save();
-    
+
     const isEmailSent = await sendEmail(userEmailID, subject, text);
     if (isEmailSent) {
       res.send({ status: 1, message: "OTP successfully sent to EmailId" });
     } else {
-      res.send({ status: 0, message: "Something went wrong" });
+      res.send({ status: 0, message: "Unable to send OTP to this Email Id" });
     }
   }
 
@@ -282,7 +284,7 @@ class AuthController {
   async resendOTP(req, res) {
     const userEmailID = req.body.emailId;
     const checkEmailSchema = emailSchema.safeParse(userEmailID);
-    
+
     if (!checkEmailSchema) {
       return res
         .status(400)
@@ -330,7 +332,9 @@ class AuthController {
     if (!verifyOTPSchemaValdate) {
       return res
         .status(400)
-        .send({ message: "Validation Failed :" + verifyOTPSchemaValdate.error });
+        .send({
+          message: "Validation Failed :" + verifyOTPSchemaValdate.error,
+        });
     }
 
     const isUserPresent = await Token.findOne({ emailId });
@@ -368,7 +372,9 @@ class AuthController {
     if (!updatePasswordSchemaValidate.success) {
       return res
         .status(400)
-        .send({ message: "Validation Failed :" + updatePasswordSchemaValidate.error });
+        .send({
+          message: "Validation Failed :" + updatePasswordSchemaValidate.error,
+        });
     }
 
     const isUserPresent = await Token.findOne({ emailId });
