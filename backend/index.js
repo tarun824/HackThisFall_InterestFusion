@@ -8,6 +8,7 @@ const { redisClient } = require("./config/redis");
 const logger = require("./utils/logger");
 const errorHandler = require("./middlewares/errorhandler");
 const authRouter = require("./routes/auth");
+const fusionRouter = require("./routes/fusionComm.route");
 const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
@@ -22,6 +23,7 @@ const {
 } = require("./socket_listeners/addToUserOnlineEvent");
 const sendMessageEvent = require("./socket_listeners/sendMessageEvent");
 const disconnectEvent = require("./socket_listeners/disconnectEvent");
+const eventRouter = require("./routes/fusionEvent.routes");
 
 const app = express();
 const PORT = process.env.PORT || 7777;
@@ -43,6 +45,7 @@ app.use(
       "https://another-frontend.vercel.app",
       "http://localhost:5173",
       "http://localhost:3000",
+      "*"
     ],
     credentials: true,
   })
@@ -86,12 +89,17 @@ app.use(apiLimiter);
 app.use(express.json());
 app.use(cookieParser());
 app.use(analyticsLogger);
+app.use('/test',async (req,res) => {
+  res.send("interestfusion server running")
+})
 app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
 app.use("/api/", activity);
 app.use("/", metricsRouter);
+app.use("/",fusionRouter)
+app.use('/',eventRouter)
 app.use(errorHandler);
 
 // Database connection and server start

@@ -17,11 +17,15 @@ import Chat from "./components/Chat/Chat";
 import About from "./components/About"; // Import About component
 import Contact from "./components/Contact";
 import StudyGroup from "./components/StudyGroup";
-import CommunityEvents from "./components/CommunityEvents";
 import InterestMatching from "./components/InterestMatching";
 import SupportPage from "./components/SupportPage";
 import Blog from "./components/Blog";
 import FAQ from "./components/FAQ";
+import CursorTrail from "./components/CursorTrail";
+import Community from "./components/Community";
+import CommunityEvents from "./components/Events/CommunityEvents";
+import PrivacyPolicy from "./components/Privacy";
+import TermsOfService from "./components/Terms";
 import ForgetPassword from "./components/auth/ForgetPassword";
 import VerifyCode from "./components/auth/VerifyCode";
 import SetPassword from "./components/auth/SetPassword";
@@ -58,6 +62,8 @@ function App() {
             <Route path="/support" element={<SupportPage />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/faq" element={<FAQ />} />
+            <Route path="/privacy" element={<PrivacyPolicy />}></Route>
+            <Route path="/terms" element={<TermsOfService />}></Route>
 
             {/* Parent Route with NavBar and Footer */}
             <Route element={<Body />}>
@@ -72,9 +78,11 @@ function App() {
             <Route path="set-passeword" element={<SetPassword />}></Route>
             <Route path="chat" element={<Chat />} />
             <Route path="*" element={<PageNotFound />} />
+            <Route path="/community" element={<Community />} />
           </Routes>
         </BrowserRouter>
       </Provider>
+      <CursorTrail />
     </>
   );
 }
