@@ -1,4 +1,4 @@
-const { FusionEvent } = require('../models/fusionEvent.model');
+const { FusionEvent } = require('../models/fusionEvent.js');
 
 /**
  * Controller to create a new event
@@ -24,7 +24,7 @@ const createEvent = async (req, res) => {
       date: new Date(date), // Ensuring the date is stored as a valid Date object
       description: description,
       location: location,
-      image: image || '', // Default to an empty string if no image is provided
+      image: '', // Default to an empty string if no image is provided
       createdBy: u_id,
     });
 
