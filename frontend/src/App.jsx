@@ -50,19 +50,6 @@ function App() {
             {/* Separate layout for LandingPage */}
             <Route path="/" element={<LandingPage />} />
 
-            {/* About Page */}
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/services/groups" element={<StudyGroup />} />
-            <Route path="/services/events" element={<CommunityEvents/>} />
-            <Route path="/services/matching" element={<InterestMatching />} /> 
-            <Route path="/support" element={<SupportPage />} /> 
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="/privacy" element={<PrivacyPolicy/>}></Route>
-            <Route path="/terms" element={<TermsOfService/>}></Route>
-
-
             {/* Parent Route with NavBar and Footer */}
             <Route element={<Body />}>
               <Route path="home" element={<Feed />} />
@@ -70,15 +57,27 @@ function App() {
               <Route path="profile" element={<Profile />} />
               <Route path="connections" element={<Connections />} />
               <Route path="requests" element={<Requests />} />
+              <Route path="chat" element={<Chat />} />
+              
+              {/* Move these routes under Body layout */}
+              <Route path="about" element={<About />} />
+              <Route path="contact" element={<Contact />} />
+              <Route path="services/groups" element={<StudyGroup />} />
+              <Route path="services/events" element={<CommunityEvents/>} />
+              <Route path="services/matching" element={<InterestMatching />} /> 
+              <Route path="support" element={<SupportPage />} /> 
+              <Route path="blog" element={<Blog />} />
+              <Route path="faq" element={<FAQ />} />
+              <Route path="privacy" element={<PrivacyPolicy/>} />
+              <Route path="terms" element={<TermsOfService/>} />
+              <Route path="community" element={<Community/>} />
             </Route>
-            <Route path="chat" element={<Chat />} />
+
             <Route path="*" element={<PageNotFound />} />
-            <Route path="/community" element= {<Community/>} />
           </Routes>
         </BrowserRouter>
       </Provider>
       <CursorTrail/>
-
     </>
   );
 }
