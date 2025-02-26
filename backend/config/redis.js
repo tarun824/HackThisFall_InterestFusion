@@ -9,9 +9,9 @@ const redisClient = redis.createClient({
 });
 
 // Promisify Redis methods for easier use
-const getAsync = promisify(redisClient.get).bind(redisClient);
-const setAsync = promisify(redisClient.set).bind(redisClient);
-const delAsync = promisify(redisClient.del).bind(redisClient);
+const getAsync = redisClient.get.bind(redisClient);
+const setAsync = redisClient.set.bind(redisClient);
+const delAsync = redisClient.del.bind(redisClient);
 
 // Handle connection events
 redisClient.on("connect", () => {
