@@ -3,7 +3,7 @@ const { promisify } = require("util");
 
 // Create Redis client
 const redisClient = redis.createClient({
-  // if you are using docker to spin up the redis the host should be localhost and port should be 6379 
+  // if you are using docker to spin up the redis the host should be localhost and port should be 6379
   host: "localhost",
   port: 6379,
 });
