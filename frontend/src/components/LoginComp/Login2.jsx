@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addUser } from "../../utils/userSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../utils/constants";
 import { motion } from "framer-motion";
 import OneSignal from "react-onesignal";
@@ -110,6 +110,9 @@ const Login2 = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </label>
+            <div className="flex justify-end mr-4">
+              <Link to={"/forget-password"}>Forget Passowrd</Link>
+            </div>
           </div>
           {error && (
             <motion.p
