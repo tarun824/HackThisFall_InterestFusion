@@ -51,7 +51,7 @@ function App() {
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<LandingPage />} />
-            
+
             <Route element={<Body />}>
               <Route path="home" element={<Feed />} />
               <Route path="login" element={<Login2 />} />
@@ -66,7 +66,6 @@ function App() {
               <Route path="services/matching" element={<InterestMatching />} />
               <Route path="support" element={<SupportPage />} />
               <Route path="blog" element={<Blog />} />
-              <Route path="faq" element={<FAQ />} />
               <Route path="privacy" element={<PrivacyPolicy />} />
               <Route path="terms" element={<TermsOfService />} />
               <Route path="community" element={<Community />} />
@@ -76,7 +75,13 @@ function App() {
             </Route>
 
             <Route path="*" element={<PageNotFound />} />
+            {/* <Routes> */}
+              <Route path="faq" element={<FAQ />} />
+            {/* </Routes> */}
           </Routes>
+        </BrowserRouter>
+        <BrowserRouter basename="/">
+
         </BrowserRouter>
       </Provider>
       <CursorTrail />
