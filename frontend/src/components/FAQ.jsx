@@ -27,10 +27,10 @@ const FAQ = () => {
   };
 
   return (
-    <div className="min-h-screen p-6 bg-gradient-to-br from-purple-700 via-blue-600 to-indigo-500 text-white flex flex-col items-center">
+    <div className="min-h-screen p-6 bg-gray-900 text-gray-200 flex flex-col items-center">
       <header className="text-center py-6">
         <motion.h1
-          className="text-4xl font-bold"
+          className="text-4xl font-bold text-white"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -38,7 +38,7 @@ const FAQ = () => {
           Frequently Asked Questions
         </motion.h1>
         <motion.p
-          className="text-sm text-gray-300"
+          className="text-sm text-gray-400"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
@@ -58,7 +58,7 @@ const FAQ = () => {
           placeholder="Search questions..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full p-3 rounded-lg bg-white text-gray-900 border-none shadow focus:ring-2 focus:ring-purple-300"
+          className="w-full p-3 rounded-lg bg-gray-800 text-gray-200 border border-gray-600 focus:ring-2 focus:ring-purple-500"
         />
       </motion.div>
       
@@ -72,15 +72,15 @@ const FAQ = () => {
               exit={{ opacity: 0, y: -20 }}
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
-              className="bg-white text-gray-900 p-4 rounded-lg shadow-lg cursor-pointer border border-purple-500 hover:bg-purple-300"
+              className="bg-gray-800 text-gray-300 p-4 rounded-lg shadow-lg cursor-pointer border border-gray-700 hover:bg-gray-700"
               onClick={() => toggleExpand(faq.id)}
             >
               <div className="flex justify-between items-center">
-                <motion.h2 className="text-lg font-semibold text-purple-700">
+                <motion.h2 className="text-lg font-semibold text-purple-400">
                   {faq.question}
                 </motion.h2>
                 <motion.button
-                  className="text-purple-700 text-xl"
+                  className="text-purple-400 text-xl"
                   animate={{ rotate: expandedQuestion === faq.id ? 180 : 0 }}
                   transition={{ duration: 0.2 }}
                 >
@@ -93,7 +93,7 @@ const FAQ = () => {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="text-gray-700 mt-2"
+                    className="text-gray-400 mt-2"
                   >
                     {faq.answer}
                   </motion.p>
@@ -103,7 +103,7 @@ const FAQ = () => {
           ))
         ) : (
           <motion.p
-            className="text-gray-300 text-center"
+            className="text-gray-400 text-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
