@@ -67,7 +67,6 @@ function App() {
               <Route path="blog" element={<Blog />} />
               <Route path="privacy" element={<PrivacyPolicy />} />
               <Route path="terms" element={<TermsOfService />} />
-              <Route path="community" element={<Community />} />
             </Route>
 
             <Route path="login" element={<Login />} />
@@ -78,6 +77,7 @@ function App() {
 
             <Route path="*" element={<PageNotFound />} />
             {/* <Routes> */}
+              <Route path="community" element={<Community />} />
             <Route path="faq" element={<FAQ />} />
             {/* </Routes> */}
           </Routes>
