@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import PublicProfileText from "./PublicProfileText";
-import SkillComponent from "./skillComponent";
 import { BASE_URL } from "./../utils/constants";
+import SkillComponent from "./SkillComponent";
 
 function PublicProfile() {
   const { publicUserId } = useParams();
