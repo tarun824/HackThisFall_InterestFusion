@@ -6,6 +6,9 @@ import axios from "axios";
 import { BASE_URL } from "./../../utils/constants";
 import { useDispatch } from "react-redux";
 import { addUser } from "../../utils/userSlice";
+import TagsInput from "react-tagsinput";
+
+import "react-tagsinput/react-tagsinput.css";
 
 function Signup() {
   const navigate = useNavigate();
@@ -14,7 +17,12 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [allTags, setAllTags] = useState({ tags: [] });
+
   const [showToast, setShowToast] = useState(null);
+  function handleChange(tags) {
+    setAllTags({ tags });
+  }
   const dispatch = useDispatch();
 
   async function SignupButtonFunction() {
@@ -22,6 +30,16 @@ function Signup() {
       if (!email || !password) {
         setShowToast("Please enter all details");
         setTimeout(() => setShowToast(null), 3000);
+        return;
+      }
+      if (allTags.tags.length < 3) {
+        setShowToast("Minimum 3 tags are required");
+        setTimeout(() => {
+          setShowToast("Hint: tags can be games, cooking, coding");
+          setTimeout(() => {
+            setShowToast(null);
+          }, 5000);
+        }, 3000);
         return;
       }
       const res = await axios.post(
@@ -60,7 +78,7 @@ function Signup() {
         <dev className="flex flex-col justify-start mt-12 mr-20 w-full lg:w-5/12 ">
           <p className="text-3xl font-semibold my-4">Sign up</p>
           <p>
-            Let’s get you all st up so you can access your personal account.
+            Let’s get you all set up so you can access your personal account.
           </p>
 
           <div className="flex mt-5">
@@ -86,14 +104,19 @@ function Signup() {
             placeholder="Email"
             className="w-full mt-2 px-4 py-2 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder=" Password "
-            className="w-full mb-10 mt-3  px-4 py-2 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full mb-2 mt-3  px-4 py-2 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-
+          <TagsInput
+            className="w-full mb-10 mt-2  px-4 py-2 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={allTags.tags}
+            onChange={handleChange}
+          />
           {showToast != null && (
             <div className="toast toast-top toast-end">
               <div className="alert alert-error">
