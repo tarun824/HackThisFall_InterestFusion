@@ -46,22 +46,55 @@ const Community = () => {
     }
   };
 
-  const handlePost = () => {
-    const token = localStorage.getItem("u_token");
-    const decode = jwtDecode(token);
-    axios.post(`${BASE_URL}/fusionpublish`, { userId: decode.id, title, content }, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-    .then(() => {
-      setIsModalOpen(false);
-      setTitle("");
-      setContent("");
-      fetchPosts();
-    })
-    .catch((err) => {
+  const handlePost = async () => {
+    try {
+      // Retrieve token from localStorage
+      const token = localStorage.getItem("u_token");
+      if (!token) {
+        console.error("No authentication token found.");
+        alert("Please log in to post.");
+        setIsPosting(false);
+        return;
+      }
+  
+      // Decode token to get user ID
+      let decode;
+      try {
+        decode = jwtDecode(token);
+      } catch (error) {
+        console.error("Invalid token:", error);
+        alert("Session expired. Please log in again.");
+        setIsPosting(false);
+        return;
+      }
+  
+      // Prepare post payload
+      const postData = { userId: decode.id, title, content };
+  
+      // Send request with token authorization
+      const response = await axios.post(`${BASE_URL}/fusionpublish`, postData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+  
+      // Success response handling
+      if (response.status === 201 || response.status === 200) {
+        console.log("Post added successfully:", response.data);
+        setIsModalOpen(false);
+        setTitle("");
+        setContent("");
+        fetchPosts();
+      } else {
+        console.warn("Unexpected response status:", response.status);
+        alert("Failed to post. Please try again.");
+      }
+    } catch (err) {
       console.error("Error adding post:", err);
-    });
+      alert("An error occurred while posting. Please check your connection and try again.");
+    } finally {
+      setIsPosting(false); // Reset loading state
+    }
   };
+  
 
   return (
     <motion.div 
