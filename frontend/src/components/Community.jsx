@@ -89,21 +89,53 @@ const Community = () => {
       >
         <PlusCircle size={20} /> Add Your Thought
       </motion.button>
-      
       {isModalOpen && (
-        <motion.div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <motion.div className="bg-[#19202E] p-6 rounded-lg shadow-lg w-80 text-white relative">
-            <button className="absolute top-2 right-2 text-gray-400 hover:text-white" onClick={() => setIsModalOpen(false)}>
-              <X size={20} />
-            </button>
-            <h2 className="text-lg font-semibold mb-2">Share Your Thought</h2>
-            <input type="text" className="w-full p-2 rounded-lg bg-[#272F3E] text-white mb-2" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
-            <textarea className="w-full p-2 rounded-lg bg-[#272F3E] text-white mb-2" placeholder="Write something..." value={content} onChange={(e) => setContent(e.target.value)}></textarea>
-            <button className="mt-3 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg w-full" onClick={handlePost}>Post</button>
-          </motion.div>
-        </motion.div>
-      )}
-      
+  <motion.div 
+    initial={{ opacity: 0, scale: 0.8 }} 
+    animate={{ opacity: 1, scale: 1 }} 
+    exit={{ opacity: 0, scale: 0.8 }} 
+    transition={{ duration: 0.3 }} 
+    className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+  >
+    <motion.div 
+      initial={{ opacity: 0, y: -50 }} 
+      animate={{ opacity: 1, y: 0 }} 
+      exit={{ opacity: 0, y: -50 }} 
+      transition={{ type: "spring", stiffness: 100 }} 
+      className="bg-[#19202E] p-6 rounded-lg shadow-lg w-80 text-white relative"
+    >
+      <button 
+        className="absolute top-2 right-2 text-gray-400 hover:text-white" 
+        onClick={() => setIsModalOpen(false)}
+      >
+        <X size={20} />
+      </button>
+      <h2 className="text-lg font-semibold mb-2">Share Your Thought</h2>
+      <input 
+        type="text" 
+        className="w-full p-2 rounded-lg bg-[#272F3E] text-white mb-2" 
+        placeholder="Title" 
+        value={title} 
+        onChange={(e) => setTitle(e.target.value)} 
+      />
+      <textarea 
+        className="w-full p-2 rounded-lg bg-[#272F3E] text-white mb-2" 
+        placeholder="Write something..." 
+        value={content} 
+        onChange={(e) => setContent(e.target.value)}
+      ></textarea>
+      <motion.button 
+        whileHover={{ scale: 1.05 }} 
+        whileTap={{ scale: 0.95 }} 
+        className="mt-3 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg w-full" 
+        onClick={handlePost}
+      >
+        Post
+      </motion.button>
+    </motion.div>
+  </motion.div>
+)}
+
       <div className="mt-6 w-full max-w-2xl">
         {posts.map((post) => (
           <motion.div key={post.id} className="bg-[#19202E] text-white p-4 mb-4 rounded-lg shadow">
@@ -114,15 +146,47 @@ const Community = () => {
       </div>
       
       {isAuthModalOpen && (
-        <motion.div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <motion.div className="bg-[#19202E] p-6 rounded-lg shadow-lg w-80 text-white relative">
-            <h2 className="text-lg font-semibold mb-2">Login / Signup</h2>
-            <input type="text" placeholder="Username" value={uname} onChange={(e) => setUname(e.target.value)} className="w-full p-2 mb-2 rounded-lg bg-[#272F3E] text-white" />
-            <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full p-2 mb-2 rounded-lg bg-[#272F3E] text-white" />
-            <button className="mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg w-full" onClick={handleAuth}>Continue</button>
-          </motion.div>
-        </motion.div>
-      )}
+  <motion.div 
+    initial={{ opacity: 0, scale: 0.9 }} 
+    animate={{ opacity: 1, scale: 1 }} 
+    exit={{ opacity: 0, scale: 0.9 }} 
+    transition={{ duration: 0.3 }} 
+    className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+  >
+    <motion.div 
+      initial={{ opacity: 0, y: -50 }} 
+      animate={{ opacity: 1, y: 0 }} 
+      exit={{ opacity: 0, y: -50 }} 
+      transition={{ type: "spring", stiffness: 100 }} 
+      className="bg-[#19202E] p-6 rounded-lg shadow-lg w-80 text-white relative"
+    >
+      <h2 className="text-lg font-semibold mb-2">Login / Signup</h2>
+      <input 
+        type="text" 
+        placeholder="Username" 
+        value={uname} 
+        onChange={(e) => setUname(e.target.value)} 
+        className="w-full p-2 mb-2 rounded-lg bg-[#272F3E] text-white"
+      />
+      <input 
+        type="password" 
+        placeholder="Password" 
+        value={password} 
+        onChange={(e) => setPassword(e.target.value)} 
+        className="w-full p-2 mb-2 rounded-lg bg-[#272F3E] text-white"
+      />
+      <motion.button 
+        whileHover={{ scale: 1.05 }} 
+        whileTap={{ scale: 0.95 }} 
+        className="mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg w-full" 
+        onClick={handleAuth}
+      >
+        Continue
+      </motion.button>
+    </motion.div>
+  </motion.div>
+)}
+
     </motion.div>
   );
 };
