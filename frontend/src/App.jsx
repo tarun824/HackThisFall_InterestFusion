@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Body from "./components/Body";
-import Login from "./components/Login";
 import Profile from "./components/Profile";
 import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
@@ -29,6 +28,8 @@ import TermsOfService from "./components/Terms";
 import ForgetPassword from "./components/auth/ForgetPassword";
 import VerifyCode from "./components/auth/VerifyCode";
 import SetPassword from "./components/auth/SetPassword";
+import Login from "./components/auth/Login";
+import Signup from "./components/auth/Signup";
 
 function App() {
   try {
@@ -68,11 +69,13 @@ function App() {
             {/* Parent Route with NavBar and Footer */}
             <Route element={<Body />}>
               <Route path="home" element={<Feed />} />
-              <Route path="login" element={<Login2 />} />
               <Route path="profile" element={<Profile />} />
               <Route path="connections" element={<Connections />} />
               <Route path="requests" element={<Requests />} />
             </Route>
+
+            <Route path="login" element={<Login />} />
+            <Route path="signup" element={<Signup />} />
             <Route path="forget-password" element={<ForgetPassword />}></Route>
             <Route path="verify-code" element={<VerifyCode />}></Route>
             <Route path="set-passeword" element={<SetPassword />}></Route>

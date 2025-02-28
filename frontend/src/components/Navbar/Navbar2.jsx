@@ -68,7 +68,7 @@ const NavBar2 = () => {
             <Link to="/login" className="btn btn-primary">
               Login
             </Link>
-            <Link to="/login" className="btn btn-secondary">
+            <Link to="/signup" className="btn btn-secondary">
               Signup
             </Link>
           </div>
