@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Body from "./components/Body";
-import Login from "./components/Login";
 import Profile from "./components/Profile";
 import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
@@ -9,7 +8,6 @@ import Connections from "./components/Connections";
 import Requests from "./components/Requests";
 import ScrollToTop from "./components/ScrollToTop";
 import LandingPage from "./components/Landingpage/Landingpage";
-import Login2 from "./components/LoginComp/Login2";
 import PageNotFound from "./components/PageNotFound";
 import { ONESIGNAL_APP_ID } from "./utils/constants";
 import OneSignal from "react-onesignal";
@@ -29,6 +27,8 @@ import TermsOfService from "./components/Terms";
 import ForgetPassword from "./components/auth/ForgetPassword";
 import VerifyCode from "./components/auth/VerifyCode";
 import SetPassword from "./components/auth/SetPassword";
+import Login from "./components/auth/Login";
+import Signup from "./components/auth/Signup";
 
 function App() {
   try {
@@ -54,7 +54,6 @@ function App() {
 
             <Route element={<Body />}>
               <Route path="home" element={<Feed />} />
-              <Route path="login" element={<Login2 />} />
               <Route path="profile" element={<Profile />} />
               <Route path="connections" element={<Connections />} />
               <Route path="requests" element={<Requests />} />
@@ -69,20 +68,21 @@ function App() {
               <Route path="privacy" element={<PrivacyPolicy />} />
               <Route path="terms" element={<TermsOfService />} />
               <Route path="community" element={<Community />} />
-              <Route path="forget-password" element={<ForgetPassword />} />
-              <Route path="verify-code" element={<VerifyCode />} />
-              <Route path="set-password" element={<SetPassword />} />
             </Route>
+
+            <Route path="login" element={<Login />} />
+            <Route path="signup" element={<Signup />} />
+            <Route path="forget-password" element={<ForgetPassword />} />
+            <Route path="verify-code" element={<VerifyCode />} />
+            <Route path="set-password" element={<SetPassword />} />
 
             <Route path="*" element={<PageNotFound />} />
             {/* <Routes> */}
-              <Route path="faq" element={<FAQ />} />
+            <Route path="faq" element={<FAQ />} />
             {/* </Routes> */}
           </Routes>
         </BrowserRouter>
-        <BrowserRouter basename="/">
-
-        </BrowserRouter>
+        <BrowserRouter basename="/"></BrowserRouter>
       </Provider>
       <CursorTrail />
     </>

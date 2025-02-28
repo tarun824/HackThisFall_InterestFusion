@@ -35,7 +35,7 @@ function CommonAuthLayout(props) {
         </dev>
         <img
           src={props.image}
-          className="h-[600px]  w-[600px] hidden  lg:block  "
+          className="h-[550px]  w-[600px] hidden  lg:block  "
         />
       </div>
     </div>
