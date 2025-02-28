@@ -8,12 +8,11 @@ import Connections from "./components/Connections";
 import Requests from "./components/Requests";
 import ScrollToTop from "./components/ScrollToTop";
 import LandingPage from "./components/Landingpage/Landingpage";
-import Login2 from "./components/LoginComp/Login2";
 import PageNotFound from "./components/PageNotFound";
 import { ONESIGNAL_APP_ID } from "./utils/constants";
 import OneSignal from "react-onesignal";
 import Chat from "./components/Chat/Chat";
-import About from "./components/About"; // Import About component
+import About from "./components/About";
 import Contact from "./components/Contact";
 import StudyGroup from "./components/StudyGroup";
 import InterestMatching from "./components/InterestMatching";
@@ -51,39 +50,39 @@ function App() {
         <BrowserRouter basename="/">
           <ScrollToTop />
           <Routes>
-            {/* Separate layout for LandingPage */}
             <Route path="/" element={<LandingPage />} />
 
-            {/* About Page */}
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/services/groups" element={<StudyGroup />} />
-            <Route path="/services/events" element={<CommunityEvents />} />
-            <Route path="/services/matching" element={<InterestMatching />} />
-            <Route path="/support" element={<SupportPage />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="/privacy" element={<PrivacyPolicy />}></Route>
-            <Route path="/terms" element={<TermsOfService />}></Route>
-
-            {/* Parent Route with NavBar and Footer */}
             <Route element={<Body />}>
               <Route path="home" element={<Feed />} />
               <Route path="profile" element={<Profile />} />
               <Route path="connections" element={<Connections />} />
               <Route path="requests" element={<Requests />} />
+              <Route path="chat" element={<Chat />} />
+              <Route path="about" element={<About />} />
+              <Route path="contact" element={<Contact />} />
+              <Route path="services/groups" element={<StudyGroup />} />
+              <Route path="services/events" element={<CommunityEvents />} />
+              <Route path="services/matching" element={<InterestMatching />} />
+              <Route path="support" element={<SupportPage />} />
+              <Route path="blog" element={<Blog />} />
+              <Route path="privacy" element={<PrivacyPolicy />} />
+              <Route path="terms" element={<TermsOfService />} />
+              <Route path="community" element={<Community />} />
             </Route>
 
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<Signup />} />
-            <Route path="forget-password" element={<ForgetPassword />}></Route>
-            <Route path="verify-code" element={<VerifyCode />}></Route>
-            <Route path="set-passeword" element={<SetPassword />}></Route>
-            <Route path="chat" element={<Chat />} />
+            <Route path="forget-password" element={<ForgetPassword />} />
+            <Route path="verify-code" element={<VerifyCode />} />
+            <Route path="set-password" element={<SetPassword />} />
+
             <Route path="*" element={<PageNotFound />} />
-            <Route path="/community" element={<Community />} />
+            {/* <Routes> */}
+            <Route path="faq" element={<FAQ />} />
+            {/* </Routes> */}
           </Routes>
         </BrowserRouter>
+        <BrowserRouter basename="/"></BrowserRouter>
       </Provider>
       <CursorTrail />
     </>
