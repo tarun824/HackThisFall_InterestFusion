@@ -145,7 +145,8 @@ class AuthController {
   async signup(req, res, next) {
     try {
       validateSignUpData(req);
-      const { firstName, lastName, emailId, password, playerId } = req.body;
+      const { firstName, lastName, emailId, password, playerId, skills } =
+        req.body;
 
       const passwordHash = await bcrypt.hash(password, 10);
       const user = new User({
@@ -153,6 +154,7 @@ class AuthController {
         lastName,
         emailId,
         password: passwordHash,
+        skills: skills ?? [],
         onesignalPlayerId: playerId,
       });
 
@@ -191,11 +193,9 @@ class AuthController {
       });
 
       if (!loginSchemaValidator.success) {
-        return res
-          .status(400)
-          .send({
-            message: "Validation Failed :" + loginSchemaValidator.error,
-          });
+        return res.status(400).send({
+          message: "Validation Failed :" + loginSchemaValidator.error,
+        });
       }
 
       const user = await User.findOne({ emailId: emailId });
@@ -330,11 +330,9 @@ class AuthController {
     });
 
     if (!verifyOTPSchemaValdate) {
-      return res
-        .status(400)
-        .send({
-          message: "Validation Failed :" + verifyOTPSchemaValdate.error,
-        });
+      return res.status(400).send({
+        message: "Validation Failed :" + verifyOTPSchemaValdate.error,
+      });
     }
 
     const isUserPresent = await Token.findOne({ emailId });
@@ -370,11 +368,9 @@ class AuthController {
     });
 
     if (!updatePasswordSchemaValidate.success) {
-      return res
-        .status(400)
-        .send({
-          message: "Validation Failed :" + updatePasswordSchemaValidate.error,
-        });
+      return res.status(400).send({
+        message: "Validation Failed :" + updatePasswordSchemaValidate.error,
+      });
     }
 
     const isUserPresent = await Token.findOne({ emailId });
