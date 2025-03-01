@@ -4,7 +4,7 @@ const FusionUser = require('../models/fusionUser');
 // Create a new group
 const createGroup = async (req, res) => {
     try {
-        const { u_id, name, description } = req.body;
+        const { u_id, name, description,tag } = req.body;
         if (!u_id || !name) {
             return res.status(400).json({ message: "User ID and group name are required" });
         }
@@ -13,7 +13,8 @@ const createGroup = async (req, res) => {
             name,
             description,
             members: [u_id],
-            createdBy: u_id
+            createdBy: u_id,
+            tag
         });
 
         await newGroup.save();

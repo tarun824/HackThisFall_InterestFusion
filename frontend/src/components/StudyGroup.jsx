@@ -1,14 +1,69 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import axios from "axios";
+import { BASE_URL } from "../utils/constants";
+import { jwtDecode } from "jwt-decode";
 
 const StudyGroup = () => {
   const [groups, setGroups] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+// Redirect if token is missing or invalid
+useEffect(() => {
+  const token = localStorage.getItem("u_token");
+
+  if (!token) {
+    window.location.href = "/community";
+    return;
+  }
+
+  try {
+    const decoded = jwtDecode(token);
+    if (!decoded || !decoded.id) {
+      localStorage.removeItem("u_token");
+      window.location.href = "/community";
+    }
+  } catch (error) {
+    console.error("Invalid token:", error);
+    localStorage.removeItem("u_token");
+    window.location.href = "/community";
+  }
+}, []);
+
+// Fetch groups on mount with cancellation
+useEffect(() => {
+  let isMounted = true;
+
+  const fetchGroups = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/all`);
+      if (isMounted) {
+        setGroups(response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching groups:", error);
+    }
+  };
+
+  fetchGroups();
+
+  return () => {
+    isMounted = false;
+  };
+}, []);
+
+
   // Function to handle creating a new group
-  const addGroup = (group) => {
-    setGroups([...groups, group]);
-    setIsModalOpen(false); // Close modal after creating a group
+  const addGroup = async (group) => {
+    try {
+      console.log("Creating group:", group);
+      const response = await axios.post(`${BASE_URL}/create`, group);
+      setGroups([...groups, response.data]); // Add new group to the state
+      setIsModalOpen(false);
+      window.location.reload()
+    } catch (error) {
+      console.error("Error creating group:", error);
+    }
   };
 
   return (
@@ -72,43 +127,66 @@ const Modal = ({ children, onClose }) => {
   );
 };
 
-// Component to display the list of groups
+
 const GroupList = ({ groups }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {groups.length > 0 ? (
-        groups.map((group, index) => (
-          <GroupCard key={index} group={group} />
+        groups.map((group) => (
+          <motion.div
+            key={group._id}
+            whileHover={{ scale: 1.05, boxShadow: "0px 8px 20px rgba(0, 0, 0, 0.2)" }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+          >
+            <GroupCard group={group} />
+          </motion.div>
         ))
       ) : (
-        <p className="text-gray-400">No groups available. Create one!</p>
+        <motion.p
+          className="text-gray-400 text-center col-span-full"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          No groups available. Create one!
+        </motion.p>
       )}
     </div>
   );
 };
 
-// Component to display a single group card
+
+
+
 const GroupCard = ({ group }) => {
   return (
     <motion.div
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
-      className="bg-gray-700 border border-purple-400 rounded-lg shadow-lg p-6 hover:shadow-xl hover:border-purple-500 transition-all duration-300 relative overflow-hidden"
+      className="relative bg-gray-800 border border-purple-500 rounded-lg shadow-lg p-6 
+                 hover:shadow-purple-500/50 transition-all duration-300 overflow-hidden"
     >
       {/* Glowing Border Effect */}
-      <div className="absolute inset-0 rounded-lg opacity-0 hover:opacity-100 transition-opacity duration-300">
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-blue-400 blur-md animate-pulse"></div>
-      </div>
+      <div className="absolute inset-0 border-2 border-transparent rounded-lg 
+                      before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r 
+                      before:from-purple-500 before:to-blue-500 before:blur-lg before:opacity-0 
+                      hover:before:opacity-100 hover:before:animate-pulse transition-opacity duration-500" 
+      ></div>
+
+      {/* Content */}
       <div className="relative z-10">
-        <h3 className="text-xl font-bold mb-2 text-purple-300">{group.name}</h3>
+        <h3 className="text-xl font-bold mb-2 text-purple-400">{group.name}</h3>
         <p className="text-gray-300 mb-4">{group.description}</p>
-        <span className="text-sm text-blue-300 font-medium">
-          Topic: {group.topic}
+        <span className="text-sm text-blue-400 font-medium">
+          Topic: {group.tag}
         </span>
       </div>
     </motion.div>
   );
 };
+
+
 
 // Component for the "Create Group" form
 const CreateGroupForm = ({ addGroup }) => {
@@ -121,9 +199,10 @@ const CreateGroupForm = ({ addGroup }) => {
 
     // Add the new group
     addGroup({
+      u_id: jwtDecode(localStorage.getItem("u_token")).id,
       name: groupName,
       description: groupDescription,
-      topic: groupTopic,
+      tag: groupTopic,
     });
 
     // Clear the form

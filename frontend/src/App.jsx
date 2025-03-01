@@ -61,7 +61,6 @@ function App() {
               <Route path="chat" element={<Chat />} />
               <Route path="about" element={<About />} />
               <Route path="contact" element={<Contact />} />
-              <Route path="services/groups" element={<StudyGroup />} />
               <Route path="services/events" element={<CommunityEvents />} />
               <Route path="services/matching" element={<InterestMatching />} />
               <Route path="support" element={<SupportPage />} />
@@ -82,6 +81,7 @@ function App() {
             <Route path="*" element={<PageNotFound />} />
             {/* <Routes> */}
             <Route path="community" element={<Community />} />
+              <Route path="services/groups" element={<StudyGroup />} />
             <Route path="faq" element={<FAQ />} />
             {/* </Routes> */}
           </Routes>
