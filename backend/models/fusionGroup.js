@@ -23,6 +23,10 @@ const groupSchema = new mongoose.Schema(
         totalMembers:{
             type:Number,
             default:0
+        },
+        tag:{
+            type:String,
+            required:true
         }
     }
 )

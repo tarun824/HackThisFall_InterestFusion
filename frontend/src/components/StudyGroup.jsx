@@ -1,14 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import axios from "axios";
+import { BASE_URL } from "../utils/constants";
+import { jwtDecode } from "jwt-decode";
 
 const StudyGroup = () => {
   const [groups, setGroups] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  useEffect(() => {
+    const token = localStorage.getItem("u_token");
+    if (!token) {
+      window.location.href = "/community";
+    }
+  
+  }, [])
+  
+
+  // Fetch groups on mount
+  useEffect(() => {
+    const fetchGroups = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/all`);
+        setGroups(response.data); // Assuming response.data is an array of groups
+      } catch (error) {
+        console.error("Error fetching groups:", error);
+      }
+    };
+
+    fetchGroups();
+  }, []);
+
   // Function to handle creating a new group
-  const addGroup = (group) => {
-    setGroups([...groups, group]);
-    setIsModalOpen(false); // Close modal after creating a group
+  const addGroup = async (group) => {
+    try {
+      console.log("Creating group:", group);
+      const response = await axios.post(`${BASE_URL}/create`, group);
+      setGroups([...groups, response.data]); // Add new group to the state
+      setIsModalOpen(false);
+      window.location.reload()
+    } catch (error) {
+      console.error("Error creating group:", error);
+    }
   };
 
   return (
@@ -77,9 +110,7 @@ const GroupList = ({ groups }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {groups.length > 0 ? (
-        groups.map((group, index) => (
-          <GroupCard key={index} group={group} />
-        ))
+        groups.map((group) => <GroupCard key={group._id} group={group} />)
       ) : (
         <p className="text-gray-400">No groups available. Create one!</p>
       )}
@@ -103,7 +134,7 @@ const GroupCard = ({ group }) => {
         <h3 className="text-xl font-bold mb-2 text-purple-300">{group.name}</h3>
         <p className="text-gray-300 mb-4">{group.description}</p>
         <span className="text-sm text-blue-300 font-medium">
-          Topic: {group.topic}
+          Topic: {group.tag}
         </span>
       </div>
     </motion.div>
@@ -121,9 +152,10 @@ const CreateGroupForm = ({ addGroup }) => {
 
     // Add the new group
     addGroup({
+      u_id: jwtDecode(localStorage.getItem("u_token")).id,
       name: groupName,
       description: groupDescription,
-      topic: groupTopic,
+      tag: groupTopic,
     });
 
     // Clear the form
