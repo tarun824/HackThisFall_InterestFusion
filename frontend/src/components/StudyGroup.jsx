@@ -8,28 +8,50 @@ const StudyGroup = () => {
   const [groups, setGroups] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  useEffect(() => {
-    const token = localStorage.getItem("u_token");
-    if (!token) {
+// Redirect if token is missing or invalid
+useEffect(() => {
+  const token = localStorage.getItem("u_token");
+
+  if (!token) {
+    window.location.href = "/community";
+    return;
+  }
+
+  try {
+    const decoded = jwtDecode(token);
+    if (!decoded || !decoded.id) {
+      localStorage.removeItem("u_token");
       window.location.href = "/community";
     }
-  
-  }, [])
-  
+  } catch (error) {
+    console.error("Invalid token:", error);
+    localStorage.removeItem("u_token");
+    window.location.href = "/community";
+  }
+}, []);
 
-  // Fetch groups on mount
-  useEffect(() => {
-    const fetchGroups = async () => {
-      try {
-        const response = await axios.get(`${BASE_URL}/all`);
-        setGroups(response.data); // Assuming response.data is an array of groups
-      } catch (error) {
-        console.error("Error fetching groups:", error);
+// Fetch groups on mount with cancellation
+useEffect(() => {
+  let isMounted = true;
+
+  const fetchGroups = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/all`);
+      if (isMounted) {
+        setGroups(response.data);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching groups:", error);
+    }
+  };
 
-    fetchGroups();
-  }, []);
+  fetchGroups();
+
+  return () => {
+    isMounted = false;
+  };
+}, []);
+
 
   // Function to handle creating a new group
   const addGroup = async (group) => {
