@@ -124,7 +124,7 @@ function PublicProfile() {
 
             <div className="inline-grid grid-cols-10 my-3 mt-8 ">
               {publicUserData.skills.map((skill) => {
-                return SkillComponent(skill);
+                return <SkillComponent skill={skill} isMatched={false} />;
               })}
             </div>
           </div>
