@@ -34,14 +34,22 @@ const UserCard = ({ user }) => {
               return (
                 <SkillComponent
                   skill={skill}
-                  isMatched={user.matchingSkills.includes(skill)}
+                  isMatched={
+                    user.matchingSkills
+                      ? user.matchingSkills.includes(skill)
+                      : false
+                  }
                 />
               );
             })}
-            {user.matchingSkills.length > 0 ? (
-              <div className={`rounded-full w-min p-2 border-2  `}>
-                {user.matchingSkills.length}+
-              </div>
+            {user.matchingSkills ? (
+              user.matchingSkills.length > 0 ? (
+                <div className={`rounded-full w-min p-2 border-2  `}>
+                  {user.matchingSkills.length}+
+                </div>
+              ) : (
+                <></>
+              )
             ) : (
               <></>
             )}
